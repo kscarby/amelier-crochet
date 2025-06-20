@@ -1,61 +1,65 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+
 import { listarProdutos } from "../productService";
+import ProductCard from "../components/ProductCard";
 
-import '../styles/ProductCard.css';
+import "../styles/ProductPage.css";
 
-const ProductsPage = ({ addToCart }) => {
+const categoriasMapeadas = {
+  lancamentos: "Lançamentos",
+  amigurumis: "Amigurumis",
+  chaveiros: "Chaveiros",
+  acessorios: "Acessórios",
+  todos: "Todos os Produtos",
+};
+
+export default function ProductsPage({ addToCart }) {
   const { categoria } = useParams();
   const [produtos, setProdutos] = useState([]);
+  const [carregando, setCarregando] = useState(true);
 
-  const categoriasMapeadas = {
-    todos: "Todos",
-    lançamentos: "Lançamentos",
-    amigurumis: "Amigurumis",
-    chaveiros: "Chaveiros",
-    acessorios: "Acessórios"
-  };
+  const categoriaSelecionada = categoria ? categoria.toLowerCase() : "todos";
 
   useEffect(() => {
-    async function carregarProdutos() {
-      const lista = await listarProdutos();
-      setProdutos(lista);
-    }
-    carregarProdutos();
-  }, []);
+    const carregarProdutos = async () => {
+      try {
+        const lista = await listarProdutos();
 
-  const produtosFiltrados = categoria.toLowerCase() === "todos"
-    ? produtos
-    : produtos.filter(item => item.categoria.toLowerCase() === categoria.toLowerCase());
+        const filtrados =
+          categoriaSelecionada === "todos"
+            ? lista
+            : lista.filter(
+                (item) =>
+                  item.categoria.toLowerCase() === categoriaSelecionada
+              );
+
+        setProdutos(filtrados);
+      } catch (error) {
+        console.error("Erro ao carregar produtos:", error);
+      } finally {
+        setCarregando(false);
+      }
+    };
+
+    carregarProdutos();
+  }, [categoriaSelecionada]);
 
   return (
     <div className="app">
-      <h1 className="new-title">{categoriasMapeadas[categoria] || categoria}</h1>
+      <h1 className="new-title">
+        {categoriasMapeadas[categoriaSelecionada] || "Produtos"}
+      </h1>
 
-      {produtosFiltrados.length > 0 ? (
-        produtosFiltrados.map((item) => (
-          <div key={item.id} className="card-newproduct">
-            <img className="img-newproduct" src={item.image} alt={item.nome} />
-
-            <div className="card-price">
-              <h1>{item.nome.charAt(0).toUpperCase() + item.nome.slice(1)}</h1>
-              <h2>R$ {item.preco}</h2>
-              <p>
-                R$ {item.preco} à vista com desconto ou 3x R$ {(item.preco / 3).toFixed(2)} sem juros
-              </p>
-              <div className="card-buy">
-                <button className="button-buy" onClick={() => addToCart(item)}>
-                  Comprar
-                </button>
-              </div>
-            </div>
-          </div>
+      {carregando ? (
+        <p>Carregando produtos...</p>
+      ) : produtos.length > 0 ? (
+        produtos.map((item) => (
+          <ProductCard key={item.id} produto={item} addToCart={addToCart} />
         ))
       ) : (
-        <p>Carregando produtos...</p>
+        <p>Nenhum produto encontrado.</p>
       )}
     </div>
   );
-};
-
-export default ProductsPage;
+}

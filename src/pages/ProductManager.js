@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   listarProdutos,
   criarProduto,
   atualizarProduto
 } from "../productService";
 import { getAuth } from "firebase/auth";
-
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../firebase";
 
-import "../styles/ProductManager.css";
-import { useParams, useNavigate } from "react-router-dom";
+import '../styles/ProductManager.css'
 
 const categoriasFixas = ["lancamentos", "amigurumis", "chaveiros", "acessorios", 'todos'];
 
@@ -24,8 +23,8 @@ export default function ProductManager() {
   const [editId, setEditId] = useState(null);
   const [mensagem, setMensagem] = useState("");
 
-const auth = getAuth();
-const user = auth.currentUser;
+  const auth = getAuth();
+  const user = auth.currentUser;
 
   const { id } = useParams();
   const navigate = useNavigate();
@@ -120,11 +119,6 @@ const user = auth.currentUser;
     setTimeout(() => setMensagem(""), 3000);
   };
 
-  // Função para editar produto clicando no botão da lista
-  const handleEdit = (produto) => {
-    carregarProdutoParaEdicao(produto);
-  };
-
   return (
     <div className="container-product-manager">
       <h2>{editId ? "Editar Produto" : "Cadastrar Produto"}</h2>
@@ -156,7 +150,9 @@ const user = auth.currentUser;
           onChange={(e) => setCategoria(e.target.value)}
           required
         >
-          <option value="" disabled>Selecione a categoria</option>
+          <option value="" disabled>
+            Selecione a categoria
+          </option>
           {categoriasFixas.map((cat) => (
             <option key={cat} value={cat}>
               {cat.charAt(0).toUpperCase() + cat.slice(1)}
@@ -199,7 +195,6 @@ const user = auth.currentUser;
       </form>
 
       {mensagem && <p className="mensagem-sucesso">{mensagem}</p>}
-
     </div>
   );
 }

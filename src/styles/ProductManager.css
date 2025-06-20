@@ -1,0 +1,85 @@
+/* Container principal */
+.container-product-manager {
+  max-width: 900px;
+  margin: 40px auto;
+  background-color: #fefefe;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Título */
+.container-product-manager h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #7b9e89;
+  font-weight: 700;
+}
+
+/* Formulário */
+.form-product-manager {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Inputs e Select */
+.input-product-manager {
+  padding: 12px 18px;
+  border-radius: 12px;
+  border: 2px solid #b5c18e;
+  background-color: #fff;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.input-product-manager:focus {
+  outline: none;
+  border-color: #7b9e89;
+}
+
+/* Botões */
+.button-product-manager {
+  background-color: #b5c18e;
+  color: #fff;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.button-product-manager:hover {
+  background-color: #7b9e89;
+}
+
+.cancel-button {
+  background-color: #e0a899;
+}
+
+.cancel-button:hover {
+  background-color: #d68a79;
+}
+
+/* Preview da imagem */
+.preview-image {
+  width: 180px;
+  border-radius: 16px;
+  object-fit: cover;
+  margin: 0 auto;
+  display: block;
+  border: 2px solid #b5c18e;
+}
+
+/* Mensagem de sucesso ou erro */
+.mensagem-sucesso {
+  text-align: center;
+  color: #7b9e89;
+  background-color: #e8f5e9;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 10px;
+  font-weight: 600;
+}

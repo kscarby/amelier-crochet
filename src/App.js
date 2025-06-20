@@ -1,34 +1,52 @@
-
 import './App.css';
 import { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-// components
+// Components
 import Toolbar from './components/Toolbar';
-import NewProducts from './pages/NewProducts';
-import Patterns from './pages/Patterns';
-import PromptDelivery from './pages/PromptDelivery';
 import Home from './pages/Home';
-import BuyPage from './pages/BuyPage';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import AdminRoute from './routes/AdminRoute';
+import ProductsAdmin from './pages/ProductsAdmin';
+import ProductManager from './pages/ProductManager';
+import ProductsPage from './pages/ProductsPage';
 
 function App() {
+  const [cart, setCart] = useState([]);
 
   return (
     <div className="App">
       <BrowserRouter>
-      <Header className="App-header" />
-      <Toolbar />
-      <Routes>
-        <Route path='/' element = {<Home />} />
-        <Route path='/newproducts' element = {<NewProducts />} />
-        <Route path='/prompt' element = {<PromptDelivery />} />
-        <Route path='/patterns' element = {<Patterns />} />
-        <Route path='/buypage' element = {<BuyPage />} />
-      </Routes>
-      </BrowserRouter>   
-      <Footer/>
+        <Header />
+        <Toolbar cart={cart} setCart={setCart} />
+
+        <Routes>
+          {/* Rotas públicas */}
+          <Route path="/" element={<Home />} />
+          <Route path="/products/:categoria" element={<ProductsPage cart={cart} setCart={setCart} />} />
+
+          {/* Rotas de administração protegidas */}
+          <Route 
+            path="/admin" 
+            element={
+              <AdminRoute>
+                <ProductManager />
+              </AdminRoute>
+            } 
+          />
+          <Route 
+            path="/admin/:categoria" 
+            element={
+              <AdminRoute>
+                <ProductsAdmin />
+              </AdminRoute>
+            } 
+          />
+        </Routes>
+      </BrowserRouter>
+
+      <Footer />
     </div>
   );
 }
