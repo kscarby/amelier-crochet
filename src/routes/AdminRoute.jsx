@@ -27,7 +27,7 @@ const AdminRoute = ({ children }) => {
 
   if (loading) return <p>Carregando...</p>;
 
-  if (!isAdmin) return <Navigate to="/" replace />;
+  if (!isAdmin) return <Navigate to="/login" replace />;
 
   return children;
 };
