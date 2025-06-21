@@ -12,15 +12,17 @@ import ProductsPage from './pages/ProductsPage';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import AdminPage from './pages/AdminPage'; // ✅ Página que junta ProductManager + ProductsAdmin
+import SearchPage from './pages/SearchPage';
 
 function App() {
   const [cart, setCart] = useState([]);
+  const [search, setSearch] = useState("");
 
   return (
     <div className="App">
       <BrowserRouter>
         <Header />
-        <Toolbar cart={cart} setCart={setCart} />
+        <Toolbar cart={cart} setCart={setCart} onSearch={setSearch} />
 
         <Routes>
           {/* Rotas públicas */}
@@ -29,7 +31,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route
             path="/products/:categoria"
-            element={<ProductsPage cart={cart} setCart={setCart} />}
+            element={<ProductsPage cart={cart} setCart={setCart}/>}
           />
 
           {/* Rota administrativa única */}
@@ -40,6 +42,15 @@ function App() {
                 <AdminPage /> {/* ✅ Aqui junta ProductManager + ProductsAdmin */}
               </AdminRoute>
             }
+          />
+
+          <Route
+            path="/buscar"
+            element={
+            <SearchPage
+              search={search} // aqui passa o termo atualizado do Toolbar
+              addToCart={(produto) => setCart(prev => [...prev, produto])}
+            />}
           />
         </Routes>
       </BrowserRouter>

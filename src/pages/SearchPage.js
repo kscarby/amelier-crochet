@@ -1,39 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { listarProdutos } from "../productService";
 import ProductCard from "../components/ProductCard";
 
-import "../styles/ProductPage.css";
+export default function SearchPage({ addToCart }) {
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const searchTerm = params.get("term")?.toLowerCase() || "";
 
-const categoriasMapeadas = {
-  lancamentos: "Lançamentos",
-  amigurumis: "Amigurumis",
-  chaveiros: "Chaveiros",
-  acessorios: "Acessórios",
-  todos: "Todos os Produtos",
-};
-
-export default function ProductsPage({ addToCart, search }) {
-  const { categoria } = useParams();
   const [produtos, setProdutos] = useState([]);
   const [carregando, setCarregando] = useState(true);
-
-  const categoriaSelecionada = categoria ? categoria.toLowerCase() : "todos";
 
   useEffect(() => {
     const carregarProdutos = async () => {
       try {
         const lista = await listarProdutos();
-
-        const filtrados =
-          categoriaSelecionada === "todos"
-            ? lista
-            : lista.filter(
-                (item) =>
-                  item.categoria.toLowerCase() === categoriaSelecionada
-              );
-
-        setProdutos(filtrados);
+        console.log("Produtos carregados:", lista);
+        setProdutos(lista);
       } catch (error) {
         console.error("Erro ao carregar produtos:", error);
       } finally {
@@ -42,16 +25,25 @@ export default function ProductsPage({ addToCart, search }) {
     };
 
     carregarProdutos();
-  }, [categoriaSelecionada]);
+  }, []);
 
-  const produtosFiltrados = produtos.filter((produto) =>
-    produto.title.toLowerCase().includes(search.toLowerCase())
-  );
+  const normalizar = (texto) =>
+    texto?.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
+  const termo = normalizar(searchTerm);
+
+  const produtosFiltrados = produtos.filter((produto) => {
+    const nome = normalizar(produto.nome || "");
+    const categoria = normalizar(produto.categoria || "");
+    return nome.includes(termo) || categoria.includes(termo);
+  });
+
+  console.log("Filtrados:", produtosFiltrados);
 
   return (
     <div className="app">
       <h1 className="new-title">
-        {categoriasMapeadas[categoriaSelecionada] || "Produtos"}
+        {searchTerm ? `Resultados para "${searchTerm}"` : "Busca"}
       </h1>
 
       {carregando ? (

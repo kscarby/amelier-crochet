@@ -2,7 +2,7 @@
    Layout da Página
 =========================== */
 .app {
-    margin: 0 auto;
+    
     max-width: 1200px;
     padding: 20px;
     display: flex;
@@ -116,8 +116,8 @@
     width: 100%;
     margin-bottom: 25px;
     background-color: #f7dcb9;
-    text-align: center;
-    padding: 10px;
+    text-align: start;
+    padding: 10px 20px;
     border-radius: 12px;
     font-size: clamp(1.8rem, 4vw, 2.5rem);
     color: #333;

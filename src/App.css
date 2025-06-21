@@ -14,3 +14,9 @@
 button , input {
   cursor: pointer;
 }
+
+.h1-title{
+  font-family: 'Playwrite HR Lijeva', cursive;
+  color: #B5C18E;
+  
+}

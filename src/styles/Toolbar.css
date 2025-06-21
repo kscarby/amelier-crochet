@@ -35,6 +35,15 @@ li:hover {
     color: #B5C18E;
 }
 
+.footer-logo {
+
+    font-size: 25px ;
+    font-family: "Playwrite HR Lijeva", cursive;
+    font-optical-sizing: auto;
+    font-style: normal;
+    color: #B5C18E;
+}
+
 .toolbar-filter {
     background-image: url(../assets/icons/search_30dp_B5C18E_FILL0_wght400_GRAD0_opsz24.svg);
     background-repeat: no-repeat;
