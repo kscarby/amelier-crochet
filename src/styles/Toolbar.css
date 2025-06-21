@@ -1,0 +1,210 @@
+@import url('https://fonts.googleapis.com/css2?family=Zain:wght@200;300;400;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playwrite+HR+Lijeva:wght@100..400&display=swap');
+  
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Zain", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+li:hover {
+    color: #B5C18E;
+    cursor: pointer;
+}
+
+
+.toolbar-app {
+    width: inherit;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.toolbar {
+    height: 80px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.toolbar-logo{
+    font-size: 30px ;
+    font-family: "Playwrite HR Lijeva", cursive;
+    font-optical-sizing: auto;
+    font-style: normal;
+    color: #B5C18E;
+}
+
+.toolbar-filter {
+    background-image: url(../assets/icons/search_30dp_B5C18E_FILL0_wght400_GRAD0_opsz24.svg);
+    background-repeat: no-repeat;
+    background-position: right;
+    height: 35px;
+    padding-left: 4px;
+    width: 450px;
+    font-size: 20px;
+    border: solid 1px #F7DCB9;
+    border-radius: 5px;
+}
+
+.toolbar-buttons {
+    display: flex;
+    justify-content: end;
+    width: 261.61px;
+}
+
+.toolbar-home {
+    padding: 10px;
+    background-image: url(../assets/icons/menu_30dp_B5C18E_FILL0_wght400_GRAD0_opsz24.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: white;
+    border: none;
+    border-radius: 5px;
+    height: 35px;
+    width: 35px;
+}
+
+.toolbar-login {
+    background-image: url(../assets/icons/person_30dp_B5C18E_FILL0_wght400_GRAD0_opsz24.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: white;
+    border: none;
+    border-radius: 5px;
+    height: 35px;
+    width: 35px;
+}
+
+.toolbar-shopping {
+    background-image: url(../assets/icons/shopping_cart_30dp_B5C18E_FILL0_wght400_GRAD0_opsz24.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: white;
+    border: none;
+    border-radius: 5px;
+    height: 35px;
+    width: 35px;
+}
+
+.toolbar__ {
+    margin: auto;
+    width: 900px;
+    height: 40px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar {
+    margin: auto;
+    height: 40px;
+}
+
+.toolbar-home:hover {
+    border: solid 1px #F7DCB9  ;
+    border-radius: 5px;
+}
+.toolbar-login:hover {
+    border: solid 1px #F7DCB9  ;
+    border-radius: 5px;
+}
+.toolbar-shopping:hover {
+    border: solid 1px #F7DCB9  ;
+    border-radius: 5px;
+}
+
+.list-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.img-cart {
+    padding: 10px;
+    height: 50px;
+    width: 50px;
+}
+
+/* Toolbar geral */
+.toolbar__ {
+  background-color: #fefefe;
+  padding: 10px 0;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Navbar container */
+.navbar {
+  display: flex;
+  gap: 20px;
+}
+
+/* Botões base */
+.navbar button {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-family: 'Zain', sans-serif;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* Estilo por categoria */
+
+/* Lançamentos */
+.navbar-news {
+  background-color: #B5C18E;
+  color: white;
+}
+.navbar-news:hover {
+  background-color: #9cab7a;
+}
+
+/* Amigurumis */
+.navbar-amigurumis {
+  background-color: #DEAC80;
+  color: white;
+}
+.navbar-amigurumis:hover {
+  background-color: #c59269;
+}
+
+/* Chaveiros */
+.navbar-keychains {
+  background-color: #B99470;
+  color: white;
+}
+.navbar-keychains:hover {
+  background-color: #a07d59;
+}
+
+/* Acessórios */
+.navbar-accessories {
+  background-color: #F7DCB9;
+  color: #333;
+}
+.navbar-accessories:hover {
+  background-color: #e4c8a5;
+}
+
+/* Todos */
+.navbar-all {
+  background-color: #757ce8;
+  color: white;
+}
+.navbar-all:hover {
+  background-color: #5d64c6;
+}
+
+/* Efeito no clique */
+.navbar button:active {
+  transform: scale(0.96);
+}
+

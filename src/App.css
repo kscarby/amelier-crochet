@@ -1,0 +1,16 @@
+
+.App {
+  display: flex;
+  flex-direction: column;
+}
+.App-body {
+  height: 1360px;
+}
+
+.Banner-body {
+  
+}
+
+button , input {
+  cursor: pointer;
+}

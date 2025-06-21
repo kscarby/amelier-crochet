@@ -1,0 +1,165 @@
+/* =====================
+   Layout Geral da Página
+========================= */
+.admin-page {
+  padding: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.admin-page h2 {
+  color: #333;
+  margin-bottom: 15px;
+}
+
+/* ===========================
+   Formulário de Produto (Topo)
+============================== */
+.product-manager {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  margin-bottom: 30px;
+}
+
+.product-manager h2 {
+  margin-bottom: 20px;
+  color: #444;
+}
+
+.product-manager form {
+  display: grid;
+  gap: 15px;
+}
+
+.product-manager label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+  color: #555;
+}
+
+.product-manager input,
+.product-manager select {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.product-manager input:focus,
+.product-manager select:focus {
+  border-color: #ffc0cb; /* rosa clarinho */
+  outline: none;
+}
+
+/* =====================
+   Botões
+======================== */
+.button-edit,
+.button-delete {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.button-edit {
+  background-color: #B5C18E; /* verde suave */
+  color: #333;
+}
+
+.button-edit:hover {
+  background-color: #9cab7a; /* verde mais forte */
+}
+
+.button-delete {
+  background-color: #f87171; /* vermelho suave */
+  color: white;
+}
+
+.button-delete:hover {
+  background-color: #dc2626; /* vermelho mais forte */
+}
+
+/* ==========================
+   Tabela de Produtos (Lista)
+============================= */
+.products-admin {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.products-admin h2 {
+  margin-bottom: 15px;
+  color: #444;
+}
+
+.products-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.products-table th,
+.products-table td {
+  padding: 10px;
+  border: 1px solid #eee;
+  text-align: center;
+}
+
+.products-table th {
+  background-color: #f9f9f9;
+  font-weight: 600;
+  color: #555;
+}
+
+.products-table td img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.file-upload {
+  position: relative;
+  display: inline-block;
+}
+
+.custom-file-button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    background-color: #B5C18E;
+    color: #333;
+}
+
+.custom-file-button:hover {
+  background-color: #9cab7a;
+}
+.file-Input {
+    display: none;
+}
+
+/* ===========================
+   Responsividade (opcional)
+============================= */
+@media (max-width: 768px) {
+  .products-table th,
+  .products-table td {
+    padding: 8px;
+  }
+
+  .product-manager form {
+    grid-template-columns: 1fr;
+  }
+}
