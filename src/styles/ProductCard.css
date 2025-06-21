@@ -150,12 +150,14 @@
     }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 480px) {
     .card-newproduct {
         width: 90%;
+        flex-basis: 100%;
     }
 
     .img-newproduct {
         height: 240px;
     }
 }
+

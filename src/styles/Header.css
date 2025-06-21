@@ -64,3 +64,9 @@ header span {
   font-size: 15px;
   margin: 0 8px;
 }
+
+@media (max-width: 480px) {
+  header {
+    width: 100%;
+  }
+}
