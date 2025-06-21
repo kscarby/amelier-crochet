@@ -1,200 +1,184 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useEffect, useState, useRef } from "react";
+import { db, storage } from "../firebase";
 import {
-  listarProdutos,
-  criarProduto,
-  atualizarProduto
-} from "../productService";
-import { getAuth } from "firebase/auth";
+  doc,
+  addDoc,
+  updateDoc,
+  collection,
+} from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { storage } from "../firebase";
 
-import '../styles/ProductManager.css'
+export default function ProductManager({ produtoSelecionado, onSave, onCancel }) {
+  const [form, setForm] = useState({
+    nome: "",
+    preco: "",
+    image: "",
+    categoria: "lancamentos",
+  });
 
-const categoriasFixas = ["lancamentos", "amigurumis", "chaveiros", "acessorios", 'todos'];
+  const [file, setFile] = useState(null);
+  const [uploading, setUploading] = useState(false);
 
-export default function ProductManager() {
-  const [produtos, setProdutos] = useState([]);
-  const [nome, setNome] = useState("");
-  const [preco, setPreco] = useState("");
-  const [categoria, setCategoria] = useState("");
-  const [imgFile, setImgFile] = useState(null);
-  const [imgPreview, setImgPreview] = useState("");
-  const [editId, setEditId] = useState(null);
-  const [mensagem, setMensagem] = useState("");
-
-  const auth = getAuth();
-  const user = auth.currentUser;
-
-  const { id } = useParams();
-  const navigate = useNavigate();
-
-  // Carregar produtos existentes
-  const carregarProdutos = async () => {
-    const lista = await listarProdutos();
-    setProdutos(lista);
-  };
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
-    carregarProdutos();
-  }, []);
-
-  // Se tiver ID na URL, carrega o produto para edição (opcional)
-  useEffect(() => {
-    if (id && produtos.length > 0) {
-      const produto = produtos.find((p) => p.id === id);
-      if (produto) {
-        carregarProdutoParaEdicao(produto);
-      }
+    if (produtoSelecionado) {
+      setForm(produtoSelecionado);
+      setFile(null);
+    } else {
+      setForm({
+        nome: "",
+        preco: "",
+        image: "",
+        categoria: "lancamentos",
+      });
+      setFile(null);
     }
-  }, [id, produtos]);
+  }, [produtoSelecionado]);
 
-  // Função para carregar produto no formulário para edição
-  const carregarProdutoParaEdicao = (produto) => {
-    setEditId(produto.id);
-    setNome(produto.nome);
-    setPreco(produto.preco);
-    setCategoria(produto.categoria || "");
-    setImgPreview(produto.image || "");
-    setImgFile(null);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
   };
 
-  const limparFormulario = () => {
-    setEditId(null);
-    setNome("");
-    setPreco("");
-    setCategoria("");
-    setImgFile(null);
-    setImgPreview("");
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+      setFile(selectedFile);
+    }
   };
 
-  // Upload da imagem para o Firebase Storage
-  const uploadImagem = async (file) => {
-    const storageRef = ref(storage, `produtos/${Date.now()}_${file.name}`);
-    await uploadBytes(storageRef, file);
-    const url = await getDownloadURL(storageRef);
-    return url;
-  };
-
-  // Salvar produto (novo ou edição)
-  const salvarProduto = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!nome.trim() || !preco || !categoria) {
-      setMensagem("❌ Preencha todos os campos.");
-      return;
-    }
-
     try {
-      let imgUrl = imgPreview;
+      setUploading(true);
+      let imageUrl = form.image;
 
-      if (imgFile) {
-        imgUrl = await uploadImagem(imgFile);
+      // 🔥 Se tiver arquivo novo, faz upload para o Storage
+      if (file) {
+        const storageRef = ref(storage, `produtos/${file.name}`);
+        await uploadBytes(storageRef, file);
+        imageUrl = await getDownloadURL(storageRef);
       }
 
-      const produto = {
-        nome,
-        preco: parseFloat(preco),
-        categoria,
-        image: imgUrl,
-      };
-
-      if (editId) {
-        await atualizarProduto(editId, produto);
-        setMensagem("✅ Produto atualizado com sucesso!");
+      if (form.id) {
+        const docRef = doc(db, "produtos", form.id);
+        await updateDoc(docRef, {
+          nome: form.nome,
+          preco: Number(form.preco),
+          image: imageUrl,
+          categoria: form.categoria,
+        });
       } else {
-        await criarProduto(produto);
-        setMensagem("✅ Produto cadastrado com sucesso!");
+        await addDoc(collection(db, "produtos"), {
+          nome: form.nome,
+          preco: Number(form.preco),
+          image: imageUrl,
+          categoria: form.categoria,
+        });
       }
 
-      limparFormulario();
-      carregarProdutos();
-
-      setTimeout(() => navigate("/admin"), 1500);
-    } catch (erro) {
-      console.error("Erro ao salvar:", erro);
-      setMensagem("❌ Erro ao salvar produto.");
+      onSave();
+      setForm({
+        nome: "",
+        preco: "",
+        image: "",
+        categoria: "lancamentos",
+      });
+      setFile(null);
+    } catch (error) {
+      console.error("Erro ao salvar:", error);
+    } finally {
+      setUploading(false);
     }
-
-    setTimeout(() => setMensagem(""), 3000);
   };
 
   return (
-    <div className="container-product-manager">
-      <h2>{editId ? "Editar Produto" : "Cadastrar Produto"}</h2>
+    <div className="product-manager">
+      <h2>{form.id ? "Editar Produto" : "Novo Produto"}</h2>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Nome:
+          <input
+            name="nome"
+            value={form.nome}
+            onChange={handleChange}
+            required
+          />
+        </label>
 
-      <form className="form-product-manager" onSubmit={salvarProduto}>
-        <input
-          className="input-product-manager"
-          type="text"
-          placeholder="Nome do Produto"
-          value={nome}
-          onChange={(e) => setNome(e.target.value)}
-          required
-        />
+        <label>
+          Preço:
+          <input
+            type="number"
+            name="preco"
+            value={form.preco}
+            onChange={handleChange}
+            required
+          />
+        </label>
 
-        <input
-          className="input-product-manager"
-          type="number"
-          placeholder="Preço"
-          min="0"
-          step="0.01"
-          value={preco}
-          onChange={(e) => setPreco(e.target.value)}
-          required
-        />
+        <label>
+          Imagem:
+          <div className="file-upload">
+            <input
+              type="file"
+              accept="image/*"
+              style={{ display: "none" }}
+              ref={fileInputRef}
+              onChange={handleFileChange}
+            />
+            <button
+              type="button"
+              className="custom-file-button"
+              onClick={() => fileInputRef.current.click()}
+            >
+              {file ? "Imagem Selecionada" : "Escolher Arquivo"}
+            </button>
+            {file && <span style={{ marginLeft: 8 }}>{file.name}</span>}
+          </div>
 
-        <select
-          className="input-product-manager"
-          value={categoria}
-          onChange={(e) => setCategoria(e.target.value)}
-          required
-        >
-          <option value="" disabled>
-            Selecione a categoria
-          </option>
-          {categoriasFixas.map((cat) => (
-            <option key={cat} value={cat}>
-              {cat.charAt(0).toUpperCase() + cat.slice(1)}
-            </option>
-          ))}
-        </select>
+          {(file || form.image) && (
+            <div style={{ marginTop: 10 }}>
+              <img
+                src={file ? URL.createObjectURL(file) : form.image}
+                alt="Preview"
+                style={{ width: 100, height: 100, objectFit: "cover", borderRadius: 8 }}
+              />
+            </div>
+          )}
+        </label>
 
-        <input
-          className="input-product-manager"
-          type="file"
-          accept="image/*"
-          onChange={(e) => {
-            if (e.target.files[0]) {
-              setImgFile(e.target.files[0]);
-              setImgPreview(URL.createObjectURL(e.target.files[0]));
-            }
-          }}
-        />
-
-        {imgPreview && (
-          <img src={imgPreview} alt="Preview" className="preview-image" />
-        )}
-
-        <button className="button-product-manager" type="submit">
-          {editId ? "Atualizar Produto" : "Cadastrar Produto"}
-        </button>
-
-        {editId && (
-          <button
-            type="button"
-            className="button-product-manager cancel-button"
-            onClick={() => {
-              limparFormulario();
-              navigate("/admin");
-            }}
+        <label>
+          Categoria:
+          <select
+            name="categoria"
+            value={form.categoria}
+            onChange={handleChange}
           >
-            Cancelar
-          </button>
-        )}
-      </form>
+            <option value="lancamentos">Lançamentos</option>
+            <option value="amigurumis">Amigurumis</option>
+            <option value="chaveiros">Chaveiros</option>
+            <option value="acessorios">Acessórios</option>
+          </select>
+        </label>
 
-      {mensagem && <p className="mensagem-sucesso">{mensagem}</p>}
+        <div className="buttons-actions">
+          <button type="submit" className="button-edit" disabled={uploading}>
+            {uploading ? "Salvando..." : form.id ? "Atualizar" : "Adicionar"}
+          </button>
+          {form.id && (
+            <button
+              type="button"
+              className="button-delete"
+              onClick={onCancel}
+            >
+              Cancelar
+            </button>
+          )}
+        </div>
+      </form>
     </div>
   );
 }
