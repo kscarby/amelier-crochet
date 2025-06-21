@@ -122,7 +122,7 @@ const Toolbar = ({ cart, setCart }) => {
                     <IconButton onClick={() => updateQuantity(item.id, +1)}>
                       +
                     </IconButton>
-                    <p>R$ {(item.price * item.quantity).toFixed(2)}</p>
+                    <p>R$ {(item.preco * item.quantity).toFixed(2)}</p>
                     <Tooltip title="Remover">
                       <IconButton onClick={() => DeleteItem(item.id)}>
                         <DeleteIcon />

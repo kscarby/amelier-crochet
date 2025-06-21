@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-
 import { listarProdutos } from "../productService";
 import ProductCard from "../components/ProductCard";
 
@@ -18,6 +17,7 @@ export default function ProductsPage({ addToCart }) {
   const { categoria } = useParams();
   const [produtos, setProdutos] = useState([]);
   const [carregando, setCarregando] = useState(true);
+  const [filtro, setFiltro] = useState("");
 
   const categoriaSelecionada = categoria ? categoria.toLowerCase() : "todos";
 
@@ -31,7 +31,7 @@ export default function ProductsPage({ addToCart }) {
             ? lista
             : lista.filter(
                 (item) =>
-                  item.categoria.toLowerCase() === categoriaSelecionada
+                  item.categoria?.toLowerCase() === categoriaSelecionada
               );
 
         setProdutos(filtrados);
@@ -45,6 +45,12 @@ export default function ProductsPage({ addToCart }) {
     carregarProdutos();
   }, [categoriaSelecionada]);
 
+  const produtosFiltrados = produtos.filter(
+    (produto) =>
+      produto.nome?.toLowerCase().includes(filtro.toLowerCase()) ||
+      produto.categoria?.toLowerCase().includes(filtro.toLowerCase())
+  );
+
   return (
     <div className="app">
       <h1 className="new-title">
@@ -53,8 +59,8 @@ export default function ProductsPage({ addToCart }) {
 
       {carregando ? (
         <p>Carregando produtos...</p>
-      ) : produtos.length > 0 ? (
-        produtos.map((item) => (
+      ) : produtosFiltrados.length > 0 ? (
+        produtosFiltrados.map((item) => (
           <ProductCard key={item.id} produto={item} addToCart={addToCart} />
         ))
       ) : (

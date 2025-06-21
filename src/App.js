@@ -18,6 +18,21 @@ function App() {
   const [cart, setCart] = useState([]);
   const [search, setSearch] = useState("");
 
+  const handleAddToCart = (produto) => {
+    setCart((prevCart) => {
+      const itemNoCarrinho = prevCart.find((item) => item.id === produto.id);
+      if (itemNoCarrinho) {
+        return prevCart.map((item) =>
+          item.id === produto.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      } else {
+        return [...prevCart, { ...produto, quantity: 1 }];
+      }
+    });
+  };
+
   return (
     <div className="App">
       <BrowserRouter>
@@ -31,7 +46,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route
             path="/products/:categoria"
-            element={<ProductsPage cart={cart} setCart={setCart}/>}
+            element={<ProductsPage cart={cart} setCart={setCart} addToCart={handleAddToCart} />}
           />
 
           {/* Rota administrativa única */}
@@ -39,7 +54,7 @@ function App() {
             path="/admin"
             element={
               <AdminRoute>
-                <AdminPage /> {/* ✅ Aqui junta ProductManager + ProductsAdmin */}
+                <AdminPage />
               </AdminRoute>
             }
           />
@@ -47,10 +62,11 @@ function App() {
           <Route
             path="/buscar"
             element={
-            <SearchPage
-              search={search} // aqui passa o termo atualizado do Toolbar
-              addToCart={(produto) => setCart(prev => [...prev, produto])}
-            />}
+              <SearchPage
+                search={search}
+                addToCart={handleAddToCart}  // <- usa handleAddToCart aqui!
+              />
+            }
           />
         </Routes>
       </BrowserRouter>
@@ -59,5 +75,6 @@ function App() {
     </div>
   );
 }
+
 
 export default App;
