@@ -115,22 +115,6 @@ li:hover {
     border-radius: 5px;
 }
 
-.navbar-news:hover {
-
-    border: solid 1px #F7DCB9  ;
-    border-radius: 5px;
-}
-.navbar-patterns:hover {
-
-    border: solid 1px #F7DCB9  ;
-    border-radius: 5px;
-}
-.navbar-prompt-delivery:hover {
-
-    border: solid 1px #F7DCB9  ;
-    border-radius: 5px;
-}
-
 .list-item {
   display: flex;
   justify-content: center;

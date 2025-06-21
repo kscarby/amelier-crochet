@@ -7,7 +7,7 @@ export default function Header() {
   const { user } = useAuth();
 
   return (
-    <header style={{ padding: '10px', background: '#ddd' }}>
+    <header style={{ padding: '10px', backgroundColor: '#F7DCB9' }}>
       <Link to="/">Home</Link> |{" "}
       <Link to="/admin">Admin</Link> |{" "}
       {!user && (
