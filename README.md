@@ -1,51 +1,120 @@
-# README - E-commerce de Amigurumis  - AMELIER CROCHET
 
-## Descrição do Projeto
+# 🧸 Amelier Crochet - Loja de Amigurumis
 
-Bem-vindo ao projeto de e-commerce da nossa lojinha de amigurumis! Este é um site dedicado à venda de amigurumis feitos à mão, onde os clientes podem navegar, visualizar e comprar nossos produtos únicos. O projeto foi desenvolvido utilizando as tecnologias JavaScript, React e a biblioteca MUI (Material-UI) para proporcionar uma interface moderna e responsiva.
+Loja online de amigurumis, chaveiros, acessórios e produtos feitos à mão. Desenvolvido com **React**, **Firebase** e **CSS puro**, com painel administrativo para gerenciamento de produtos.
 
-## Tecnologias Utilizadas
+## ⚙️ Tecnologias utilizadas
 
-JavaScript: A linguagem de programação central utilizada para a lógica do projeto.
-React: Biblioteca JavaScript para construção de interfaces de usuário, que permite a criação de componentes reutilizáveis.
-MUI (Material-UI): Uma biblioteca de componentes React que implementa o Material Design, facilitando a criação de uma interface atraente e acessível.
+- ⚛️ **React**
+- 🔥 **Firebase (Firestore + Storage + Auth)**
+- 🎨 **CSS puro e responsivo**
+- 🌐 **React Router DOM**
 
-## Funcionalidades
+## 📦 Funcionalidades
 
-Catálogo de Produtos: Exibição de amigurumis com imagens, descrições e preços.
-Carrinho de Compras: Permite que os clientes adicionem produtos e realizem a compra de forma simples.
-Sistema de Filtros: Filtragem de produtos por categorias, preços e popularidade.
-Responsividade: O design se adapta a diferentes tamanhos de tela, proporcionando uma boa experiência em dispositivos móveis e desktop.
+### 🛍️ Área do Cliente
+- Visualização de produtos por categorias.
+- Carrinho de compras.
+- Simulação de parcelamento.
+- Botão "Comprar" (opcionalmente redireciona para WhatsApp ou checkout futuro).
 
-## Como Executar o Projeto
+### 🛠️ Painel Administrativo
+- Login protegido (acesso para admin).
+- Cadastro de novos produtos.
+- Edição de produtos existentes.
+- Upload de imagens direto para Firebase Storage.
+- Exclusão de produtos.
+- Listagem dos produtos por categoria.
 
-1 - Clone o repositório
+## 🔐 Proteção de Rotas
+- Apenas usuários autenticados e com permissão de administrador podem acessar as rotas do painel administrativo (`/admin`).
 
-git clone https://github.com/kscarby/ameliercrochet.git
+## 🗂️ Estrutura de pastas
 
-2 - Navegue até o diretório do projeto:
+```
+src/
+│
+├── components/         # Componentes reutilizáveis (Toolbar, Footer, ProductCard)
+├── pages/              # Páginas principais (Home, ProductsPage, ProductsAdmin, ProductManager, Login, Register)
+├── routes/             # Rotas protegidas (AdminRoute)
+├── services/           # Serviços auxiliares (productService.js)
+├── styles/             # Arquivos CSS
+├── firebase.js         # Configuração do Firebase
+├── App.jsx             # Estrutura de rotas e layout
+└── index.jsx           # Ponto de entrada
+```
 
+## 🔥 Configuração do Firebase
+
+1. Crie um projeto no [Firebase Console](https://console.firebase.google.com/).
+2. Habilite:
+   - Firestore Database
+   - Storage
+   - Authentication (Email/Senha)
+3. No Firestore, crie uma coleção chamada `produtos`.
+4. Na aba Storage, configure as regras de CORS (se necessário) e permissões.
+5. Configure seu arquivo `firebase.js` com suas credenciais:
+
+```javascript
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
+import { getAuth } from "firebase/auth";
+
+const firebaseConfig = {
+  apiKey: "SUA_API_KEY",
+  authDomain: "SEU_AUTH_DOMAIN",
+  projectId: "SEU_PROJECT_ID",
+  storageBucket: "SEU_STORAGE_BUCKET",
+  messagingSenderId: "SEU_MESSAGING_SENDER_ID",
+  appId: "SEU_APP_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+export const db = getFirestore(app);
+export const storage = getStorage(app);
+export const auth = getAuth(app);
+```
+
+## 🚀 Como rodar o projeto
+
+1. Clone o repositório:
+
+```bash
+git clone https://github.com/seu-usuario/seu-repositorio.git
 cd seu-repositorio
+```
 
-3 - Instale as dependências:
+2. Instale as dependências:
 
+```bash
 npm install
+```
 
-4 - Inicie o servidor de desenvolvimento:
+3. Execute o projeto:
 
-npm start
+```bash
+npm run start
+```
 
-5 - Acesse o projeto no seu navegador em http://localhost:3000.
+4. Acesse:
 
-## Contribuições
-Se você deseja contribuir para o projeto, fique à vontade para abrir issues ou pull requests. Agradecemos por qualquer ajuda!
+```
+http://localhost:3000
+```
 
-## Contato
-Para mais informações, entre em contato:
+## 🛠️ Scripts úteis
 
-Vanessa Sabrina Costa Bandeira
-[LinkedIn](https://www.linkedin.com/in/vanessa-sabrina/)
-[E-mail](sabrina.keito@gmail.com)
-Obrigado por conferir nosso projeto de e-commerce de amigurumis!
+```bash
+npm run start       # Inicia o servidor de desenvolvimento
+npm run build       # Gera uma versão otimizada para produção
+npm run deploy      # (Opcional) Script de deploy se configurado
+```
 
-Sinta-se à vontade para personalizar as informações, como o nome do repositório, seu nome e detalhes de contato.
+## 💖 Créditos
+
+Projeto desenvolvido por **Amelier Crochet** 🧶 com amor, café e muitos pontos baixos!
+
+## 📜 Licença
+
+Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para mais detalhes.
