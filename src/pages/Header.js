@@ -10,17 +10,17 @@ export default function Header() {
 
   return (
     <header style={{ padding: '10px', backgroundColor: '#F7DCB9' }}>
-      <Link to="/" className='button-home'>Home</Link> |{" "}
-      <Link to="/admin" className='button-admin'>Admin</Link> |{" "}
+      <Link to="/" className='button-home'>Home</Link> {" "}
+      <Link to="/admin" className='button-admin'>Admin</Link> {" "}
       {!user && (
         <>
-          <Link to="/login" className='button-login'>Login</Link> |{" "}
+          <Link to="/login" className='button-login'>Login</Link> {" "}
           <Link to="/register" className='button-register'>Register</Link>
         </>
       )}
       {user && (
         <>
-          <span> Bem-vindo, {user.email} </span> |{" "}
+          <span> Bem-vindo, {user.email} </span> {" "}
           <button onClick={logout} className='button-logout'>Sair</button>
         </>
       )}

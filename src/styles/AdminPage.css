@@ -153,13 +153,17 @@
 /* ===========================
    Responsividade (opcional)
 ============================= */
-@media (max-width: 768px) {
-  .products-table th,
-  .products-table td {
-    padding: 2px;
+@media (max-width: 480px) {
+
+  .admin-page {
+  max-width: 100%;
+  padding: 5px;
   }
 
-  .product-manager form {
-    grid-template-columns: 1fr;
-  }
+.products-table th,
+.products-table td {
+  padding: 0;
+  margin: auto;
+}
+
 }

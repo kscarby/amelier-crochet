@@ -33,11 +33,11 @@ header button {
 
 /* 🔐 Login */
 .button-login {
-  background-color: #F7DCB9;
-  color: #333;
+  background-color: #757ce8;;
+  color: white;
 }
 .button-login:hover {
-  background-color: #e4c8a5;
+  background-color: #5d64c6;
 }
 
 /* 📝 Register */
@@ -61,12 +61,15 @@ header button {
 /* 👤 Texto de boas-vindas */
 header span {
   font-family: 'Zain', sans-serif;
-  font-size: 15px;
+  font-size: 12px;
   margin: 0 8px;
 }
 
 @media (max-width: 480px) {
   header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     width: 100%;
   }
 }
