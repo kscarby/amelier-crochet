@@ -1,9 +1,8 @@
 /* ========================
    Layout da Página
 =========================== */
-.app {
-    
-    max-width: 1200px;
+.app {    
+    max-width: 100%;
     padding: 20px;
     display: flex;
     flex-wrap: wrap;
@@ -114,7 +113,7 @@
 =========================== */
 .new-title {
     width: 100%;
-    margin-bottom: 25px;
+    margin: auto;
     background-color: #f7dcb9;
     text-align: start;
     padding: 10px 20px;

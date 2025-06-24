@@ -8,6 +8,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 import { green } from "@mui/material/colors";
+import ProfileDrawer from "./ProfileDrawer";
 
 import "../styles/Toolbar.css";
 
@@ -195,6 +196,7 @@ const Toolbar = ({ cart, setCart, onSearch }) => {
             <ListItem button onClick={() => {navigate("/products/todos"); setMenuOpen(false);}}>Todos</ListItem>
           </List>
         </Box>
+        <ProfileDrawer />
       </Drawer>
     </div>
   );

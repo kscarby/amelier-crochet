@@ -13,7 +13,6 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import AdminPage from './pages/AdminPage'; // ✅ Página que junta ProductManager + ProductsAdmin
 import SearchPage from './pages/SearchPage';
-
 function App() {
   const [cart, setCart] = useState([]);
   const [search, setSearch] = useState("");
