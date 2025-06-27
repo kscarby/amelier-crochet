@@ -1,0 +1,45 @@
+/* Container principal */
+.container-form-login {
+  max-width: 900px;
+  margin: 40px auto;
+  background-color: #fefefe;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Título */
+.form-h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #7b9e89;
+  font-weight: 700;
+}
+
+/* Formulário */
+.form-login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Inputs e Select */
+.form-input {
+    width: 50%;
+  padding: 12px 18px;
+  border-radius: 12px;
+  border: 2px solid #b5c18e;
+  background-color: #fff;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #7b9e89;
+}
+
+
+

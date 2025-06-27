@@ -20,24 +20,28 @@ export default function Register() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Criar Conta</h2>
-      <input 
-        type="email" 
-        placeholder="Email" 
-        value={email} 
-        onChange={e => setEmail(e.target.value)} 
-        required 
-      />
-      <input 
-        type="password" 
-        placeholder="Senha" 
-        value={password} 
-        onChange={e => setPassword(e.target.value)} 
-        required 
-      />
-      <button type="submit">Criar Conta</button>
-      {error && <p style={{color:'red'}}>{error}</p>}
-    </form>
+    <div className='container-form'>
+      <form className='form-login' onSubmit={handleSubmit}>
+        <h2 className='form-h2'>Criar Conta</h2>
+        <input 
+          className='form-input'
+          type="email" 
+          placeholder="Email" 
+          value={email} 
+          onChange={e => setEmail(e.target.value)} 
+          required 
+        />
+        <input 
+          className='form-input'
+          type="password" 
+          placeholder="Senha" 
+          value={password} 
+          onChange={e => setPassword(e.target.value)} 
+          required 
+        />
+        <button className='button-buy' type="submit">Criar Conta</button>
+        {error && <p style={{color:'red'}}>{error}</p>}
+      </form>
+    </div>
   );
 }
