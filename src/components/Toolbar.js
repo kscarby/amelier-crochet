@@ -62,6 +62,11 @@ const Toolbar = ({ cart, setCart, onSearch }) => {
     }
   };
 
+  const handlePayment = () => {
+    setCartOpen(false);
+    navigate('/payment');
+  }
+
   return (
     <div className="toolbar-app">
       {/* Top bar */}
@@ -112,6 +117,9 @@ const Toolbar = ({ cart, setCart, onSearch }) => {
           </button>
           <button className="navbar-accessories" onClick={() => navigate("/products/acessorios")}>
             Acessórios
+          </button>
+          <button className="navbar-patterns" onClick={() => navigate("/products/patterns")}>
+            Receitas
           </button>
           <button className="navbar-all" onClick={() => navigate("/products/todos")}>
             Todos
@@ -178,7 +186,7 @@ const Toolbar = ({ cart, setCart, onSearch }) => {
       </List>
     )}
     <Divider sx={{ mt: 2, mb: 1 }} />
-    <ColorButton fullWidth onClick={() => alert("Finalizar Compra em breve!")}>
+    <ColorButton fullWidth onClick={handlePayment}>
       Finalizar Compra
     </ColorButton>
   </Box>
@@ -193,6 +201,7 @@ const Toolbar = ({ cart, setCart, onSearch }) => {
             <ListItem button onClick={() => {navigate("/products/amigurumis"); setMenuOpen(false);}}>Amigurumis</ListItem>
             <ListItem button onClick={() => {navigate("/products/chaveiros"); setMenuOpen(false);}}>Chaveiros</ListItem>
             <ListItem button onClick={() => {navigate("/products/acessorios"); setMenuOpen(false);}}>Acessórios</ListItem>
+            <ListItem button onClick={() => {navigate("/products/patterns"); setMenuOpen(false);}}>Receitas</ListItem>
             <ListItem button onClick={() => {navigate("/products/todos"); setMenuOpen(false);}}>Todos</ListItem>
           </List>
         </Box>

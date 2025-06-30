@@ -13,6 +13,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import AdminPage from './pages/AdminPage'; // ✅ Página que junta ProductManager + ProductsAdmin
 import SearchPage from './pages/SearchPage';
+import BuyPage from './pages/BuyPage';
 function App() {
   const [cart, setCart] = useState([]);
   const [search, setSearch] = useState("");
@@ -47,6 +48,7 @@ function App() {
             path="/products/:categoria"
             element={<ProductsPage cart={cart} setCart={setCart} addToCart={handleAddToCart} />}
           />
+          <Route path='/payment' element={<BuyPage />}></Route>
 
           {/* Rota administrativa única */}
           <Route
