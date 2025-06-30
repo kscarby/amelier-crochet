@@ -161,6 +161,7 @@ export default function ProductManager({ produtoSelecionado, onSave, onCancel })
             <option value="amigurumis">Amigurumis</option>
             <option value="chaveiros">Chaveiros</option>
             <option value="acessorios">Acessórios</option>
+            <option value="receitas">Receitas</option>
           </select>
         </label>
 

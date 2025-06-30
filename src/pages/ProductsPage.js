@@ -10,6 +10,7 @@ const categoriasMapeadas = {
   amigurumis: "Amigurumis",
   chaveiros: "Chaveiros",
   acessorios: "Acessórios",
+  receitas: 'Receitas',
   todos: "Todos os Produtos",
 };
 
@@ -22,28 +23,33 @@ export default function ProductsPage({ addToCart }) {
   const categoriaSelecionada = categoria ? categoria.toLowerCase() : "todos";
 
   useEffect(() => {
-    const carregarProdutos = async () => {
-      try {
-        const lista = await listarProdutos();
+  const carregarProdutos = async () => {
+    try {
+      const lista = await listarProdutos();
+      console.log("Todos os produtos:", lista);
+      console.log("Categoria na URL:", categoria);
+      console.log("Categoria selecionada:", categoriaSelecionada);
 
-        const filtrados =
-          categoriaSelecionada === "todos"
-            ? lista
-            : lista.filter(
-                (item) =>
-                  item.categoria?.toLowerCase() === categoriaSelecionada
-              );
+      const filtrados =
+        categoriaSelecionada === "todos"
+          ? lista
+          : lista.filter(
+              (item) =>
+                (item.categoria || "").toLowerCase() === categoriaSelecionada
+            );
 
-        setProdutos(filtrados);
-      } catch (error) {
-        console.error("Erro ao carregar produtos:", error);
-      } finally {
-        setCarregando(false);
-      }
-    };
+      console.log("Produtos filtrados:", filtrados);
+      setProdutos(filtrados);
+    } catch (error) {
+      console.error("Erro ao carregar produtos:", error);
+    } finally {
+      setCarregando(false);
+    }
+  };
 
-    carregarProdutos();
-  }, [categoriaSelecionada]);
+  carregarProdutos();
+}, [categoriaSelecionada]);
+
 
   const produtosFiltrados = produtos.filter(
     (produto) =>

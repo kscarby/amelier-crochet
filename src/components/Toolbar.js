@@ -118,7 +118,7 @@ const Toolbar = ({ cart, setCart, onSearch }) => {
           <button className="navbar-accessories" onClick={() => navigate("/products/acessorios")}>
             Acessórios
           </button>
-          <button className="navbar-patterns" onClick={() => navigate("/products/patterns")}>
+          <button className="navbar-patterns" onClick={() => navigate("/products/receitas")}>
             Receitas
           </button>
           <button className="navbar-all" onClick={() => navigate("/products/todos")}>

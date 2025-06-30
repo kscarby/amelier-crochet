@@ -7,7 +7,8 @@ const BuyPage = () => {
 
     <div className='app'>
         <form>
-        <h1 className='new-title'>Comprar</h1>
+          <h1 className='new-title'>Meu carrinho</h1>
+          
 
         </form>
     </div>
