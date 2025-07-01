@@ -1,0 +1,72 @@
+/* Container principal */
+.container-form-payment {    
+ /* largura menor */
+    width: 100%;        /* responsivo em telas pequenas */
+    margin: 10px auto; /* centraliza horizontal e dá espaço vertical */
+    padding: 20px;
+    display: block; 
+}
+
+.container-form-inputs {
+  max-width: 500px;
+  width: 100%;        /* responsivo em telas pequenas */
+  margin: 10px auto; /* centraliza horizontal e dá espaço vertical */
+  padding: 20px;
+  display: block; 
+
+}
+
+/* Formulário */
+.form-login {
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  gap: 15px;
+  width: 100%; 
+}
+
+.input-wrapper {
+  position: relative;
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+.form-title-h2 {
+  margin-top: 10px;
+}
+
+.floating-label {
+  position: absolute;
+  top: -10px;
+  left: 12px;
+  font-size: 14px;
+  background-color: #fff;
+  padding: 0 6px;
+  color: #7b9e89;
+  font-weight: 500;
+  z-index: 10;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px 18px;
+  border-radius: 12px;
+  border: 2px solid #b5c18e;
+  background-color: #fff;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #7b9e89;
+}
+
+.error {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: -12px;
+  margin-bottom: 12px;
+  display: block;
+}
+
