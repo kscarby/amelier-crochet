@@ -1,5 +1,5 @@
 import './App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 // Components
@@ -11,12 +11,23 @@ import AdminRoute from './routes/AdminRoute';
 import ProductsPage from './pages/ProductsPage';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import AdminPage from './pages/AdminPage'; // ✅ Página que junta ProductManager + ProductsAdmin
+import AdminPage from './pages/AdminPage';
 import SearchPage from './pages/SearchPage';
 import BuyPage from './pages/BuyPage';
+
 function App() {
-  const [cart, setCart] = useState([]);
+  // Inicializa o carrinho a partir do localStorage, se existir
+  const [cart, setCart] = useState(() => {
+    const savedCart = localStorage.getItem('cart');
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
   const [search, setSearch] = useState("");
+
+
+  // Atualiza o localStorage toda vez que o cart mudar
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart]);
 
   const handleAddToCart = (produto) => {
     setCart((prevCart) => {
@@ -40,7 +51,6 @@ function App() {
         <Toolbar cart={cart} setCart={setCart} onSearch={setSearch} />
 
         <Routes>
-          {/* Rotas públicas */}
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
@@ -48,9 +58,8 @@ function App() {
             path="/products/:categoria"
             element={<ProductsPage cart={cart} setCart={setCart} addToCart={handleAddToCart} />}
           />
-          <Route path='/payment' element={<BuyPage />}></Route>
+          <Route path="/payment" element={<BuyPage cart={cart} />} />
 
-          {/* Rota administrativa única */}
           <Route
             path="/admin"
             element={
@@ -62,12 +71,7 @@ function App() {
 
           <Route
             path="/buscar"
-            element={
-              <SearchPage
-                search={search}
-                addToCart={handleAddToCart}  // <- usa handleAddToCart aqui!
-              />
-            }
+            element={<SearchPage search={search} addToCart={handleAddToCart} />}
           />
         </Routes>
       </BrowserRouter>
@@ -76,6 +80,5 @@ function App() {
     </div>
   );
 }
-
 
 export default App;

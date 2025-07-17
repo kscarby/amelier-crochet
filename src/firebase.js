@@ -3,6 +3,8 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
+import { getFunctions } from "firebase/functions";
+import { connectFunctionsEmulator } from "firebase/functions";
 
 const firebaseConfig = {
     apiKey: "AIzaSyCjPW_jW5dp6oaH3Ymfey4GtMTUYEruRpc",
@@ -20,5 +22,10 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
+const functions = getFunctions(app);
 
-export { app, auth, db, storage };
+if (window.location.hostname === 'localhost') {
+  connectFunctionsEmulator(functions, '127.0.0.1', 8864);
+}
+
+export { app, auth, db, storage, functions };
