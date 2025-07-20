@@ -9,6 +9,10 @@
   font-family: 'Poppins', sans-serif;
 }
 
+.button-forged-password {
+  border-style: none;
+}
+
 /* Título */
 .form-h2 {
   text-align: center;

@@ -63,7 +63,7 @@ const Footer = () => {
               </Typography>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                 <Link
-                  href="https://wa.me/seunumerowhatsapp"
+                  href="https://wa.me/9981290699"
                   target="_blank"
                   color="inherit"
                   underline="hover"
@@ -72,7 +72,7 @@ const Footer = () => {
                   <FaWhatsapp color="#25D366" /> WhatsApp
                 </Link>
                 <Link
-                  href="https://instagram.com/seuusuario"
+                  href="https://instagram.com/amelier.crochet"
                   target="_blank"
                   color="inherit"
                   underline="hover"

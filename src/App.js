@@ -14,6 +14,7 @@ import Register from './pages/Register';
 import AdminPage from './pages/AdminPage';
 import SearchPage from './pages/SearchPage';
 import BuyPage from './pages/BuyPage';
+import Recovery from './pages/Recovery'
 
 function App() {
   // Inicializa o carrinho a partir do localStorage, se existir
@@ -53,6 +54,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path='/recovery' element={<Recovery/>} />
           <Route path="/register" element={<Register />} />
           <Route
             path="/products/:categoria"

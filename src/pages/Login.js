@@ -15,8 +15,6 @@ export default function Login() {
     setError('');
     try {
       await login(email, password);
-
-      // Redirecionar para a página anterior, se existir, senão para a home
       const destino = location.state?.from || '/';
       navigate(destino);
     } catch {
@@ -39,13 +37,23 @@ export default function Login() {
         <input 
           className='form-input'
           type="password" 
-          placeholder="Senha" 
+          placeholder="Senha"
           value={password} 
           onChange={e => setPassword(e.target.value)} 
           required 
         />
-        <button className='button-buy' type="submit">Entrar</button>
         {error && <p style={{ color: 'red' }}>{error}</p>}
+
+        {/* Botão corrigido */}
+        <button
+          type="button"
+          className="button-forget-password"
+          onClick={() => navigate('/recovery')}
+        >
+          Esqueci a senha
+        </button>
+
+        <button className='button-buy' type="submit">Entrar</button>
       </form>
     </div>
   );

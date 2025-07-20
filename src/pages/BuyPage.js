@@ -101,8 +101,6 @@ const itemsPayload = cart
   })
   .filter(Boolean); // remove nulls
 
-console.log("Payload final enviado ao backend:", itemsPayload);
-
 if (itemsPayload.length === 0) {
   alert('Erro: seu carrinho possui produtos inválidos.');
   return;
