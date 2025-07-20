@@ -5,8 +5,8 @@ import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useAuth } from '../AuthContext';
 
-import { httpsCallable } from 'firebase/functions';
-import { functions } from '../firebase';
+
+import axios from 'axios'; // adicione isso no topo
 
 import '../styles/BuyPage.css';
 
@@ -67,53 +67,66 @@ const BuyPage = ({ cart: propCart }) => {
   };
 
   const handlePayment = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (!validate()) return;
+  if (!validate()) return;
 
-    try {
-      // Salva dados da compra no Firestore
-      await addDoc(collection(db, 'compras'), {
-        ...formData,
-        criadoEm: new Date(),
-        uid: user?.uid || null,
-        produtos: cart,
-      });
+  try {
+    // Salva os dados da compra no Firestore
+    await addDoc(collection(db, 'compras'), {
+      ...formData,
+      criadoEm: new Date(),
+      uid: user?.uid || null,
+      produtos: cart,
+    });
 
-      // Monta o payload para criar preferência Mercado Pago
-      const itemsPayload = cart.map(item => ({
-        title: item.nome || item.title,
-        quantity: item.quantity,
-        currency_id: 'BRL',
-        unit_price: Number(item.preco || item.price),
-      }));
+    // Prepara os dados para a criação da preferência
+const itemsPayload = cart
+  .map(item => {
+    const title = item.nome || item.title;
+    const quantity = Number(item.quantity);
+    const unit_price = Number(item.preco || item.price);
 
-      console.log('Payload items para createPreference:', itemsPayload);
-
-      if (itemsPayload.length === 0) {
-        alert('Seu carrinho está vazio!');
-        return;
-      }
-      if (itemsPayload.some(i => !i.quantity || i.quantity <= 0 || !i.unit_price || isNaN(i.unit_price))) {
-        alert('Erro nos dados do carrinho. Verifique as quantidades e preços.');
-        return;
-      }
-
-      // Chama a Cloud Function para criar a preferência
-      const createPreference = httpsCallable(functions, 'createPreference');
-      const preferenceResponse = await createPreference({ items: itemsPayload });
-
-
-      const { init_point } = preferenceResponse.data;
-
-      // Redireciona para a página de pagamento do Mercado Pago
-      window.location.href = init_point;
-
-    } catch (error) {
-      console.error('Erro ao criar preferência de pagamento:', error);
-      alert('Erro ao finalizar pagamento.');
+    if (!title || quantity <= 0 || isNaN(unit_price) || unit_price <= 0) {
+      console.warn("Item inválido descartado:", item);
+      return null;
     }
-  };
+
+    return {
+      title,
+      quantity,
+      currency_id: 'BRL',
+      unit_price,
+    };
+  })
+  .filter(Boolean); // remove nulls
+
+console.log("Payload final enviado ao backend:", itemsPayload);
+
+if (itemsPayload.length === 0) {
+  alert('Erro: seu carrinho possui produtos inválidos.');
+  return;
+};
+
+    // 🔥 Chamada correta para a função HTTP local do Firebase
+const response = await axios.post(
+  'https://us-central1-amelier-crochet.cloudfunctions.net/createPreference',
+  { items: itemsPayload }
+);
+
+
+    
+
+    const { init_point } = response.data;
+
+    // Redireciona para o Mercado Pago
+    window.location.href = init_point;
+
+  } catch (error) {
+    console.error('Erro ao criar preferência de pagamento:', error);
+    alert('Erro ao finalizar pagamento.');
+  }
+};
 
   return (
     <div className="container-form-payment">

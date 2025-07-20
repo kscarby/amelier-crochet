@@ -1,17 +1,25 @@
 const functions = require("firebase-functions");
-const mercadopago = require("mercadopago");
+const express = require("express");
+const cors = require("cors");
+const { MercadoPagoConfig, Preference } = require("mercadopago");
 
-mercadopago.access_token =
-    "TEST-4446263156188276-011314-5f67b18920844cfb207c362902c0d0ad-192498083";
-exports.createPreference = functions.https.onCall(async (data, context) => {
-  console.log("Dados recebidos na função:", JSON.stringify(data, null, 2));
+const app = express();
+app.use(cors({ origin: true }));
+app.use(express.json());
 
-  if (!data || !Array.isArray(data.items)) {
-    throw new functions.https.HttpsError(
-        "invalid-argument",
-        "O payload precisa conter um array 'items'.");
+// Configure Mercado Pago
+const mercadopago = new MercadoPagoConfig({
+  accessToken: "APP_USR-4446263156188276-011314-81bd533c0a3214fd0901e225b82c3880-192498083", // <-- insira sua chave correta
+});
+const preferenceClient = new Preference(mercadopago);
+
+// Rota para criar preferência
+app.post("/", async (req, res) => {
+  const { items } = req.body;
+
+  if (!items || !Array.isArray(items)) {
+    return res.status(400).json({ error: "Items inválidos ou ausentes." });
   }
-  const {items} = data;
 
   const preference = {
     items: items.map((prod) => ({
@@ -21,20 +29,20 @@ exports.createPreference = functions.https.onCall(async (data, context) => {
       unit_price: prod.unit_price,
     })),
     back_urls: {
-      success: "http://localhost:3000/sucesso",
-      failure: "http://localhost:3000/falha",
+      success: "https://seusite.com/sucesso",
+      failure: "https://seusite.com/falha",
+      pending: "https://seusite.com/pendente",
     },
     auto_return: "approved",
   };
 
   try {
-    const response = await mercadopago.preferences.create(preference);
-    return {init_point: response.body.init_point};
+    const response = await preferenceClient.create({ body: preference });
+    return res.json({ init_point: response.init_point });
   } catch (error) {
     console.error("Erro ao criar preferência:", error);
-    throw new functions.https.HttpsError(
-        "internal",
-        error.message || "Erro desconhecido",
-    );
+    return res.status(500).json({ error: error.message || "Erro interno" });
   }
 });
+
+exports.createPreference = functions.https.onRequest(app);

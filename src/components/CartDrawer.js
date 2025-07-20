@@ -97,11 +97,6 @@ const BuyPage = ({ cart: propCart }) => {
         return;
       }
 
-      console.log("Payload items para createPreference:", itemsPayload);
-
-      const createPreference = httpsCallable(functions, "createPreference");
-      const preferenceResponse = await createPreference({ items: itemsPayload });
-
       const { init_point } = preferenceResponse.data;
       window.location.href = init_point;
 
