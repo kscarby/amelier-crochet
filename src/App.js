@@ -54,7 +54,7 @@ function App() {
         
         <Routes>
           <Route path="/perfil" element={<ProfilePage />} />
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home addToCart={handleAddToCart} />} />
           <Route path="/login" element={<Login />} />
           <Route path='/recovery' element={<Recovery/>} />
           <Route path="/register" element={<Register />} />
