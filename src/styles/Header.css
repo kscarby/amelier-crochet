@@ -49,6 +49,14 @@ header button {
   background-color: #9cab7c;
 }
 
+.button-profile {
+  background-color: #DEAC80;
+  color: white;
+}
+.button-profile:hover {
+  background-color: #c59269;
+}
+
 /* 🚪 Logout */
 .button-logout {
   background-color: #757ce8;

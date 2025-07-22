@@ -18,7 +18,12 @@ export default function ProductCard({ produto, addToCart }) {
 
         <button
           className="button-buy"
-          onClick={() => addToCart(produto)}
+          onClick={() => {
+            const confirmar = window.confirm("Deseja adicionar este produto ao carrinho?");
+            if (confirmar) {
+              addToCart(produto);
+            }
+          }}
         >
           Comprar
         </button>

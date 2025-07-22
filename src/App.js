@@ -15,6 +15,7 @@ import AdminPage from './pages/AdminPage';
 import SearchPage from './pages/SearchPage';
 import BuyPage from './pages/BuyPage';
 import Recovery from './pages/Recovery'
+import ProfilePage from './pages/ProfilePage';
 
 function App() {
   // Inicializa o carrinho a partir do localStorage, se existir
@@ -48,10 +49,11 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Header />
+        <Header setCart={setCart} />
         <Toolbar cart={cart} setCart={setCart} onSearch={setSearch} />
-
+        
         <Routes>
+          <Route path="/perfil" element={<ProfilePage />} />
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path='/recovery' element={<Recovery/>} />

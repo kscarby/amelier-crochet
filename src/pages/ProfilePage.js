@@ -1,48 +1,35 @@
-// BuyPage.jsx
+// ProfilePage.jsx
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
-import InputMask from 'react-input-mask';
-import { collection, addDoc, doc, setDoc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useAuth } from '../AuthContext';
-import axios from 'axios';
+import InputMask from 'react-input-mask';
 import '../styles/BuyPage.css';
 
-const BuyPage = ({ cart: propCart }) => {
+const ProfilePage = () => {
   const { user } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const cartFromStorage = JSON.parse(localStorage.getItem('cart')) || [];
-  const cart = location.state?.cart || propCart || cartFromStorage;
-
   const [formData, setFormData] = useState({
     email: '', nome: '', cpf: '', telefone: '', dataNascimento: '',
     endereco: '', numero: '', bairro: '', cidade: '', estado: '', cep: ''
   });
-
+  const [success, setSuccess] = useState(false);
   const [errors, setErrors] = useState({});
+  const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
-    if (!user) {
-      navigate('/login', { state: { from: '/payment' } });
-    } else {
-      const fetchUserData = async () => {
+    const fetchData = async () => {
+      if (user) {
         const docRef = doc(db, 'users', user.uid);
         const snap = await getDoc(docRef);
-        if (snap.exists()) setFormData({ email: user.email, ...snap.data() });
-        else setFormData(prev => ({ ...prev, email: user.email }));
-      };
-      fetchUserData();
-    }
-  }, [user, navigate]);
-
-  useEffect(() => {
-    if (!cart || cart.length === 0) {
-      alert('Seu carrinho está vazio.');
-      navigate('/');
-    }
-  }, [cart, navigate]);
+        if (snap.exists()) {
+          setFormData({ email: user.email, ...snap.data() });
+        } else {
+          setFormData(prev => ({ ...prev, email: user.email }));
+        }
+      }
+    };
+    fetchData();
+  }, [user]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -60,59 +47,29 @@ const BuyPage = ({ cart: propCart }) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handlePayment = async (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
     if (!validate()) return;
 
     try {
-      await addDoc(collection(db, 'compras'), {
-        ...formData,
-        criadoEm: new Date(),
-        uid: user?.uid || null,
-        produtos: cart,
-      });
-
       await setDoc(doc(db, 'users', user.uid), {
         ...formData,
         atualizadoEm: new Date(),
       });
-
-      const itemsPayload = cart.map(item => {
-        const title = item.nome || item.title;
-        const quantity = Number(item.quantity);
-        const unit_price = Number(item.preco || item.price);
-        if (!title || quantity <= 0 || isNaN(unit_price) || unit_price <= 0) return null;
-        return { title, quantity, currency_id: 'BRL', unit_price };
-      }).filter(Boolean);
-
-      if (itemsPayload.length === 0) {
-        alert('Carrinho inválido.');
-        return;
-      }
-
-      const response = await axios.post(
-        'https://us-central1-amelier-crochet.cloudfunctions.net/createPreference',
-        { items: itemsPayload }
-      );
-
-      const { init_point } = response.data;
-      window.location.href = init_point;
-
+      setSuccess(true);
+      setEditMode(false);
+      setTimeout(() => setSuccess(false), 3000);
     } catch (error) {
-      console.error('Erro:', error);
-      alert('Erro ao finalizar pagamento.');
+      console.error('Erro ao salvar:', error);
     }
   };
 
   return (
     <div className="container-form-payment">
-      <h1 className="new-title">Finalizar compra</h1>
+      <h1 className="new-title">Meu Perfil</h1>
       <div className="container-form-inputs">
         {user && (
-          <form className="form-login" onSubmit={handlePayment}>
-            <p className="info-note">
-              Seus dados vêm do perfil. <Link to="/perfil">Editar perfil</Link>
-            </p>
+          <form className="form-login" onSubmit={handleSave}>
             <h2 className="form-title-h2">Dados Pessoais</h2>
 
             <div className="input-wrapper">
@@ -123,49 +80,49 @@ const BuyPage = ({ cart: propCart }) => {
 
             <div className="input-wrapper">
               <p className="floating-label">Nome completo</p>
-              <input className="form-input" type="text" name="nome" value={formData.nome} onChange={handleChange} required />
+              <input className="form-input" type="text" name="nome" value={formData.nome} onChange={handleChange} required disabled={!editMode} />
             </div>
 
             <div className="input-wrapper">
               <p className="floating-label">CPF</p>
-              <InputMask className="form-input" mask="999.999.999-99" name="cpf" value={formData.cpf} onChange={handleChange} required />
+              <InputMask className="form-input" mask="999.999.999-99" name="cpf" value={formData.cpf} onChange={handleChange} required disabled={!editMode} />
             </div>
             {errors.cpf && <span className="error">{errors.cpf}</span>}
 
             <div className="input-wrapper">
               <p className="floating-label">Telefone</p>
-              <InputMask className="form-input" mask="(99) 99999-9999" name="telefone" value={formData.telefone} onChange={handleChange} required />
+              <InputMask className="form-input" mask="(99) 99999-9999" name="telefone" value={formData.telefone} onChange={handleChange} required disabled={!editMode} />
             </div>
             {errors.telefone && <span className="error">{errors.telefone}</span>}
 
             <div className="input-wrapper">
               <p className="floating-label">Data de nascimento</p>
-              <input className="form-input" type="date" name="dataNascimento" value={formData.dataNascimento} onChange={handleChange} required />
+              <input className="form-input" type="date" name="dataNascimento" value={formData.dataNascimento} onChange={handleChange} required disabled={!editMode} />
             </div>
 
             <div className="input-wrapper">
               <p className="floating-label">Endereço</p>
-              <input className="form-input" type="text" name="endereco" value={formData.endereco} onChange={handleChange} required />
+              <input className="form-input" type="text" name="endereco" value={formData.endereco} onChange={handleChange} required disabled={!editMode} />
             </div>
 
             <div className="input-wrapper">
               <p className="floating-label">Número</p>
-              <input className="form-input" type="text" name="numero" value={formData.numero} onChange={handleChange} required />
+              <input className="form-input" type="text" name="numero" value={formData.numero} onChange={handleChange} required disabled={!editMode} />
             </div>
 
             <div className="input-wrapper">
               <p className="floating-label">Bairro</p>
-              <input className="form-input" type="text" name="bairro" value={formData.bairro} onChange={handleChange} required />
+              <input className="form-input" type="text" name="bairro" value={formData.bairro} onChange={handleChange} required disabled={!editMode} />
             </div>
 
             <div className="input-wrapper">
               <p className="floating-label">Cidade</p>
-              <input className="form-input" type="text" name="cidade" value={formData.cidade} onChange={handleChange} required />
+              <input className="form-input" type="text" name="cidade" value={formData.cidade} onChange={handleChange} required disabled={!editMode} />
             </div>
 
             <div className="input-wrapper">
               <p className="floating-label">Estado</p>
-              <select className="form-input" name="estado" value={formData.estado} onChange={handleChange} required>
+              <select className="form-input" name="estado" value={formData.estado} onChange={handleChange} required disabled={!editMode}>
                 <option value="">Selecione o estado</option>
                 {["AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG",
                   "PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"].map(uf => (
@@ -177,11 +134,15 @@ const BuyPage = ({ cart: propCart }) => {
 
             <div className="input-wrapper">
               <p className="floating-label">CEP</p>
-              <InputMask className="form-input" mask="99999-999" name="cep" value={formData.cep} onChange={handleChange} required />
+              <InputMask className="form-input" mask="99999-999" name="cep" value={formData.cep} onChange={handleChange} required disabled={!editMode} />
             </div>
             {errors.cep && <span className="error">{errors.cep}</span>}
 
-            <button className="button-buy" type="submit">Enviar</button>
+            <div style={{ display: 'flex', gap: '10px', marginTop: '15px' }}>
+              <button className="button-buy" type="button" onClick={() => setEditMode(true)}>Editar</button>
+              <button className="button-buy" type="submit" disabled={!editMode}>Salvar alterações</button>
+            </div>
+            {success && <p style={{ color: 'green', marginTop: '10px' }}>Alterações salvas com sucesso!</p>}
           </form>
         )}
       </div>
@@ -189,4 +150,4 @@ const BuyPage = ({ cart: propCart }) => {
   );
 };
 
-export default BuyPage;
+export default ProfilePage;

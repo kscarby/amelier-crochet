@@ -1,12 +1,20 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
 import { logout } from "../services/authService";
 
 import "../styles/Header.css";
 
-export default function Header() {
+export default function Header({ setCart }) {
   const { user } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logout(); // faz logout no Firebase
+    setCart([]); // limpa carrinho do estado
+    localStorage.removeItem("cart"); // se estiver usando localStorage
+    navigate("/login"); // redireciona para login
+  };
 
   return (
     <header style={{ padding: "10px", backgroundColor: "#F7DCB9" }}>
@@ -24,7 +32,8 @@ export default function Header() {
       ) : (
         <>
           <span>Bem-vindo, {user.email}</span>{" "}
-          <button onClick={logout} className="button-logout">Sair</button>
+          <Link to="/perfil" className="button-profile">Meu Perfil</Link>
+          <button onClick={handleLogout} className="button-logout">Sair</button>
         </>
       )}
     </header>
