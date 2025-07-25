@@ -118,6 +118,15 @@ li:hover {
   background-color: #e4c8a5;
 }
 
+.navbar-patterns {
+  background-color: #B5C18E;
+  color: white;
+}
+
+.navbar-patterns:hover {
+  background-color: #9cab7a;
+}
+
 .navbar-all {
   background-color: #757ce8;
   color: white;

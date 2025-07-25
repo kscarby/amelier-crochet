@@ -1,0 +1,20 @@
+.form-terms {
+    display: flex;
+    
+}
+
+.p-terms {
+    padding: 5px;
+}
+
+.bt-terms {
+    border-style: none;
+    background-color: transparent;
+    font-size: 16px;
+    
+}
+
+.bt-terms:hover {
+    cursor: pointer;
+    color: #b5c18e;
+}

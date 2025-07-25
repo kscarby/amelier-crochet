@@ -50,12 +50,13 @@ header button {
 }
 
 .button-profile {
-  background-color: #DEAC80;
+  background-color: #B5C18E;
   color: white;
 }
 .button-profile:hover {
-  background-color: #c59269;
+  background-color: #9cab7a;
 }
+
 
 /* 🚪 Logout */
 .button-logout {
