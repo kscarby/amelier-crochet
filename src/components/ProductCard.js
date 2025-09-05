@@ -1,11 +1,18 @@
 import React from "react";
 import "../styles/ProductCard.css";
+import { useNavigate } from "react-router-dom";
 
 export default function ProductCard({ produto, addToCart }) {
+  const navigate = useNavigate();
   return (
     <div className="card-newproduct">
     <div className="image-wrapper">
-        <img className="img-newproduct" src={produto.image} alt={produto.nome} />
+        <img
+          onClick={() => navigate(`/details/${produto.id}`)}
+          className="img-newproduct"
+          src={produto.image}
+          alt={produto.nome}
+        />
     </div>
 
       <div className="card-price">

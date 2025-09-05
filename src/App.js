@@ -16,6 +16,7 @@ import SearchPage from './pages/SearchPage';
 import BuyPage from './pages/BuyPage';
 import Recovery from './pages/Recovery'
 import ProfilePage from './pages/ProfilePage';
+import DetailsPage from './pages/DetailsPage';
 
 function App() {
   // Inicializa o carrinho a partir do localStorage, se existir
@@ -63,6 +64,7 @@ function App() {
             element={<ProductsPage cart={cart} setCart={setCart} addToCart={handleAddToCart} />}
           />
           <Route path="/payment" element={<BuyPage cart={cart} />} />
+          <Route path="/details/:id" element={<DetailsPage addToCart={handleAddToCart} />} />
 
           <Route
             path="/admin"
