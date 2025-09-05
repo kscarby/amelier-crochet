@@ -1,11 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { db, storage } from "../firebase";
-import {
-  doc,
-  addDoc,
-  updateDoc,
-  collection,
-} from "firebase/firestore";
+import { doc, addDoc, updateDoc, collection } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 export default function ProductManager({ produtoSelecionado, onSave, onCancel }) {
@@ -13,26 +8,32 @@ export default function ProductManager({ produtoSelecionado, onSave, onCancel })
     nome: "",
     preco: "",
     image: "",
+    pdf: "",
     categoria: "lancamentos",
   });
 
-  const [file, setFile] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
+  const [pdfFile, setPdfFile] = useState(null);
   const [uploading, setUploading] = useState(false);
 
-  const fileInputRef = useRef(null);
+  const imageInputRef = useRef(null);
+  const pdfInputRef = useRef(null);
 
   useEffect(() => {
     if (produtoSelecionado) {
       setForm(produtoSelecionado);
-      setFile(null);
+      setImageFile(null);
+      setPdfFile(null);
     } else {
       setForm({
         nome: "",
         preco: "",
         image: "",
+        pdf: "",
         categoria: "lancamentos",
       });
-      setFile(null);
+      setImageFile(null);
+      setPdfFile(null);
     }
   }, [produtoSelecionado]);
 
@@ -41,42 +42,51 @@ export default function ProductManager({ produtoSelecionado, onSave, onCancel })
     setForm({ ...form, [name]: value });
   };
 
-  const handleFileChange = (e) => {
+  const handleImageChange = (e) => {
     const selectedFile = e.target.files[0];
-    if (selectedFile) {
-      setFile(selectedFile);
-    }
+    if (selectedFile) setImageFile(selectedFile);
+  };
+
+  const handlePdfChange = (e) => {
+    const selectedFile = e.target.files[0];
+    if (selectedFile) setPdfFile(selectedFile);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setUploading(true);
 
     try {
-      setUploading(true);
       let imageUrl = form.image;
+      let pdfUrl = form.pdf;
 
-      // 🔥 Se tiver arquivo novo, faz upload para o Storage
-      if (file) {
-        const storageRef = ref(storage, `produtos/${file.name}`);
-        await uploadBytes(storageRef, file);
+      // Upload de imagem se houver
+      if (imageFile) {
+        const storageRef = ref(storage, `produtos/${imageFile.name}`);
+        await uploadBytes(storageRef, imageFile);
         imageUrl = await getDownloadURL(storageRef);
       }
 
+      // Upload de PDF se houver
+      if (pdfFile) {
+        const storageRef = ref(storage, `produtos/${pdfFile.name}`);
+        await uploadBytes(storageRef, pdfFile);
+        pdfUrl = await getDownloadURL(storageRef);
+      }
+
+      const produtoData = {
+        nome: form.nome,
+        preco: Number(form.preco),
+        image: imageUrl,
+        pdf: pdfUrl,
+        categoria: form.categoria,
+      };
+
       if (form.id) {
         const docRef = doc(db, "produtos", form.id);
-        await updateDoc(docRef, {
-          nome: form.nome,
-          preco: Number(form.preco),
-          image: imageUrl,
-          categoria: form.categoria,
-        });
+        await updateDoc(docRef, produtoData);
       } else {
-        await addDoc(collection(db, "produtos"), {
-          nome: form.nome,
-          preco: Number(form.preco),
-          image: imageUrl,
-          categoria: form.categoria,
-        });
+        await addDoc(collection(db, "produtos"), produtoData);
       }
 
       onSave();
@@ -84,9 +94,11 @@ export default function ProductManager({ produtoSelecionado, onSave, onCancel })
         nome: "",
         preco: "",
         image: "",
+        pdf: "",
         categoria: "lancamentos",
       });
-      setFile(null);
+      setImageFile(null);
+      setPdfFile(null);
     } catch (error) {
       console.error("Erro ao salvar:", error);
     } finally {
@@ -100,23 +112,30 @@ export default function ProductManager({ produtoSelecionado, onSave, onCancel })
       <form onSubmit={handleSubmit}>
         <label>
           Nome:
-          <input
-            name="nome"
-            value={form.nome}
-            onChange={handleChange}
-            required
-          />
+          <input name="nome" value={form.nome} onChange={handleChange} required />
         </label>
 
         <label>
           Preço:
-          <input
-            type="number"
-            name="preco"
-            value={form.preco}
-            onChange={handleChange}
-            required
-          />
+          <input type="number" name="preco" value={form.preco} onChange={handleChange} required />
+        </label>
+
+        <label>
+          PDF:
+          <div className="file-upload">
+            <input
+              type="file"
+              accept="application/pdf"
+              style={{ display: "none" }}
+              ref={pdfInputRef}
+              onChange={handlePdfChange}
+            />
+            <button className="button-edit" type="button" onClick={() => pdfInputRef.current.click()}>
+              {pdfFile ? "PDF Selecionado" : "Escolher PDF"}
+            </button>
+            {pdfFile && <span style={{ marginLeft: 8 }}>{pdfFile.name}</span>}
+            {!pdfFile && form.pdf && <span style={{ marginLeft: 8 }}>Arquivo atual: {form.pdf.split("/").pop()}</span>}
+          </div>
         </label>
 
         <label>
@@ -126,23 +145,18 @@ export default function ProductManager({ produtoSelecionado, onSave, onCancel })
               type="file"
               accept="image/*"
               style={{ display: "none" }}
-              ref={fileInputRef}
-              onChange={handleFileChange}
+              ref={imageInputRef}
+              onChange={handleImageChange}
             />
-            <button
-              type="button"
-              className="custom-file-button"
-              onClick={() => fileInputRef.current.click()}
-            >
-              {file ? "Imagem Selecionada" : "Escolher Arquivo"}
+            <button className="button-edit" type="button" onClick={() => imageInputRef.current.click()}>
+              {imageFile ? "Imagem Selecionada" : "Escolher Imagem"}
             </button>
-            {file && <span style={{ marginLeft: 8 }}>{file.name}</span>}
+            {imageFile && <span style={{ marginLeft: 8 }}>{imageFile.name}</span>}
           </div>
-
-          {(file || form.image) && (
+          {(imageFile || form.image) && (
             <div style={{ marginTop: 10 }}>
               <img
-                src={file ? URL.createObjectURL(file) : form.image}
+                src={imageFile ? URL.createObjectURL(imageFile) : form.image}
                 alt="Preview"
                 style={{ width: 100, height: 100, objectFit: "cover", borderRadius: 8 }}
               />
@@ -152,11 +166,7 @@ export default function ProductManager({ produtoSelecionado, onSave, onCancel })
 
         <label>
           Categoria:
-          <select
-            name="categoria"
-            value={form.categoria}
-            onChange={handleChange}
-          >
+          <select name="categoria" value={form.categoria} onChange={handleChange}>
             <option value="lancamentos">Lançamentos</option>
             <option value="amigurumis">Amigurumis</option>
             <option value="chaveiros">Chaveiros</option>
@@ -166,18 +176,10 @@ export default function ProductManager({ produtoSelecionado, onSave, onCancel })
         </label>
 
         <div className="buttons-actions">
-          <button type="submit" className="button-edit" disabled={uploading}>
+          <button className="button-edit" type="submit" disabled={uploading}>
             {uploading ? "Salvando..." : form.id ? "Atualizar" : "Adicionar"}
           </button>
-          {form.id && (
-            <button
-              type="button"
-              className="button-delete"
-              onClick={onCancel}
-            >
-              Cancelar
-            </button>
-          )}
+          {form.id && <button type="button" onClick={onCancel}>Cancelar</button>}
         </div>
       </form>
     </div>

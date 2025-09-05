@@ -106,9 +106,14 @@ const Toolbar = ({ cart, setCart, onSearch }) => {
       {/* Navbar abaixo da barra */}
       <div className="toolbar__">
         <nav className="navbar">
+          
           <button className="navbar-news" onClick={() => navigate("/products/lancamentos")}>
             Lançamentos
           </button>
+          <button className="navbar-patterns" onClick={() => navigate("/products/receitas")}>
+            Receitas
+          </button>
+          {/*
           <button className="navbar-amigurumis" onClick={() => navigate("/products/amigurumis")}>
             Amigurumis
           </button>
@@ -118,12 +123,10 @@ const Toolbar = ({ cart, setCart, onSearch }) => {
           <button className="navbar-accessories" onClick={() => navigate("/products/acessorios")}>
             Acessórios
           </button>
-          <button className="navbar-patterns" onClick={() => navigate("/products/receitas")}>
-            Receitas
-          </button>
           <button className="navbar-all" onClick={() => navigate("/products/todos")}>
             Todos
           </button>
+          */}
         </nav>
       </div>
 

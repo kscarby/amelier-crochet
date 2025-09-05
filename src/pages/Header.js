@@ -12,7 +12,7 @@ export default function Header({ setCart }) {
   const handleLogout = async () => {
     await logout(); // faz logout no Firebase
     setCart([]); // limpa carrinho do estado
-    localStorage.removeItem("cart"); // se estiver usando localStorage
+    localStorage.removeItem("cart"); 
     navigate("/login"); // redireciona para login
   };
 

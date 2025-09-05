@@ -65,6 +65,7 @@ const BuyPage = ({ cart: propCart }) => {
     if (!validate()) return;
 
     try {
+      // Salva a compra no Firestore
       await addDoc(collection(db, 'compras'), {
         ...formData,
         criadoEm: new Date(),
@@ -72,27 +73,37 @@ const BuyPage = ({ cart: propCart }) => {
         produtos: cart,
       });
 
+      // Atualiza os dados do usuário
       await setDoc(doc(db, 'users', user.uid), {
         ...formData,
         atualizadoEm: new Date(),
       });
 
-      const itemsPayload = cart.map(item => {
-        const title = item.nome || item.title;
-        const quantity = Number(item.quantity);
-        const unit_price = Number(item.preco || item.price);
-        if (!title || quantity <= 0 || isNaN(unit_price) || unit_price <= 0) return null;
-        return { title, quantity, currency_id: 'BRL', unit_price };
-      }).filter(Boolean);
+      // Mapeia os itens para enviar ao Mercado Pago
+      const itemsPayload = await Promise.all(cart.map(async item => {
+        // Busca o ID do produto no Firestore
+        const produtoDoc = await getDoc(doc(db, 'produtos', item.id));
+        if (!produtoDoc.exists()) return null;
 
-      if (itemsPayload.length === 0) {
+        return {
+          title: item.nome || item.title || 'Sem nome',
+          description: produtoDoc.id, // 🔹 envia o ID do Firestore
+          quantity: Number(item.quantity) || 1,
+          unit_price: Number(item.preco || item.price) || 0,
+        };
+      }));
+
+      const filteredItems = itemsPayload.filter(Boolean);
+
+      if (filteredItems.length === 0) {
         alert('Carrinho inválido.');
         return;
       }
 
+      // Chama a Cloud Function para criar a preferência
       const response = await axios.post(
         'https://us-central1-amelier-crochet.cloudfunctions.net/createPreference',
-        { items: itemsPayload }
+        { items: filteredItems, email: formData.email }
       );
 
       const { init_point } = response.data;
@@ -181,7 +192,7 @@ const BuyPage = ({ cart: propCart }) => {
             </div>
             {errors.cep && <span className="error">{errors.cep}</span>}
 
-            <button className="button-buy" type="submit">Enviar</button>
+            <button className="button-buy" type="submit">Finalizar Compra</button>
           </form>
         )}
       </div>
