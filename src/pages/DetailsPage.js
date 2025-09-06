@@ -56,7 +56,7 @@ export default function DetailsPage({ addToCart }) {
         </div>
       </div>
         <div className="card-details-info">
-            <p>{produto.nome}</p>
+            <p>{produto.info}</p>
 
         </div>
     </div>

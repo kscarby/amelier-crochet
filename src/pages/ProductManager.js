@@ -9,6 +9,7 @@ export default function ProductManager({ produtoSelecionado, onSave, onCancel })
     preco: "",
     image: "",
     pdf: "",
+    info:"",
     categoria: "lancamentos",
   });
 
@@ -30,6 +31,7 @@ export default function ProductManager({ produtoSelecionado, onSave, onCancel })
         preco: "",
         image: "",
         pdf: "",
+        info:"",
         categoria: "lancamentos",
       });
       setImageFile(null);
@@ -79,6 +81,7 @@ export default function ProductManager({ produtoSelecionado, onSave, onCancel })
         preco: Number(form.preco),
         image: imageUrl,
         pdf: pdfUrl,
+        info: form.info,
         categoria: form.categoria,
       };
 
@@ -95,6 +98,7 @@ export default function ProductManager({ produtoSelecionado, onSave, onCancel })
         preco: "",
         image: "",
         pdf: "",
+        info: "",
         categoria: "lancamentos",
       });
       setImageFile(null);
@@ -162,6 +166,18 @@ export default function ProductManager({ produtoSelecionado, onSave, onCancel })
               />
             </div>
           )}
+        </label>
+
+        <label>
+          Informações:
+          <textarea
+            rows="5"
+            cols="30" 
+            name="info"
+            placeholder="Escreva aqui as informações..."
+            value={form.info} 
+            onChange={handleChange} required
+          />
         </label>
 
         <label>
