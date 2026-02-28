@@ -1,0 +1,116 @@
+.footer {
+  background-color: #f5f1ea;
+  color: #5c4a3d;
+  padding-top: 40px;
+  font-family: 'Zain', sans-serif;
+}
+
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  gap: 40px;
+  justify-content: space-between;
+}
+
+.footer-section {
+  flex: 1 1 220px;
+  min-width: 220px;
+}
+
+.footer-section h3,
+.footer-section h4 {
+  margin-bottom: 15px;
+  color: #b99470;
+}
+
+.footer-section p {
+  font-size: 14px;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section ul li {
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.footer-section ul li:hover,
+.footer-section ul li a:hover {
+  color: #b5c18e;
+}
+
+.footer-section ul li a {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-section form {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.footer-section input {
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  flex: 1;
+}
+
+.footer-section button {
+  padding: 8px 14px;
+  background-color: #b5c18e;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.footer-section button:hover {
+  background-color: #9cab7c;
+}
+
+.icon {
+  font-size: 18px;
+}
+
+.footer-bottom {
+  background-color: #e9e4d8;
+  text-align: center;
+  padding: 15px;
+  margin-top: 40px;
+  font-size: 13px;
+}
+
+.footer-bottom span {
+  cursor: pointer;
+  color: #5c4a3d;
+  transition: color 0.3s;
+}
+
+.footer-bottom span:hover {
+  color: #b5c18e;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .footer-container {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .footer-section {
+    min-width: unset;
+  }
+}

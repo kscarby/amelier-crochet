@@ -1,0 +1,89 @@
+/* 🎨 Estilo base dos botões */
+header a,
+header button {
+  padding: 4px 8px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-family: 'Zain', sans-serif;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+  display: inline-block;
+}
+
+/* 🏠 Home */
+.button-home {
+  background-color: #DEAC80;
+  color: white;
+}
+.button-home:hover {
+  background-color: #c59269;
+}
+
+/* 🔧 Admin */
+.button-admin {
+  background-color: #B99470;
+  color: white;
+}
+.button-admin:hover {
+  background-color: #a07d59;
+}
+
+/* 🔐 Login */
+.button-login {
+  background-color: #757ce8;;
+  color: white;
+}
+.button-login:hover {
+  background-color: #5d64c6;
+}
+
+/* 📝 Register */
+.button-register {
+  background-color: #B5C18E;
+  color: white;
+}
+.button-register:hover {
+  background-color: #9cab7c;
+}
+
+.button-profile {
+  background-color: #B5C18E;
+  color: white;
+}
+.button-profile:hover {
+  background-color: #9cab7a;
+}
+
+
+/* 🚪 Logout */
+.button-logout {
+  background-color: #757ce8;
+  color: white;
+}
+.button-logout:hover {
+  background-color: #5d64c6;
+}
+
+/* 👤 Texto de boas-vindas */
+header span {
+  font-family: 'Zain', sans-serif;
+  font-size: 12px;
+  margin: 0 8px;
+}
+
+@media (max-width: 480px) {
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+  header span {
+  font-size: 10px;
+  margin: 0 5px;
+
+}
+}

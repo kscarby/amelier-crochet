@@ -1,0 +1,201 @@
+/* === Fontes === */
+@import url('https://fonts.googleapis.com/css2?family=Zain:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playwrite+HR+Lijeva:wght@100..400&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Zain", sans-serif;
+}
+
+li:hover {
+  color: #B5C18E;
+  cursor: pointer;
+}
+
+/* === Barra superior === */
+.toolbar-app {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.toolbar {
+  height: 80px;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+}
+
+.h1-logo {
+  font-size: 30px;
+  font-family: "Playwrite HR Lijeva", cursive;
+  color: #B5C18E;
+  cursor: pointer;
+}
+
+.toolbar-filter {
+  height: 35px;
+  width: 450px;
+  font-size: 18px;
+  border: solid 1px #F7DCB9;
+  border-radius: 5px;
+  padding-left: 8px;
+}
+
+.toolbar-shopping {
+  background-image: url(../assets/icons/shopping_cart_30dp_B5C18E_FILL0_wght400_GRAD0_opsz24.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: white;
+  border: none;
+  border-radius: 5px;
+  height: 35px;
+  width: 35px;
+  cursor: pointer;
+}
+
+/* === Navbar abaixo da toolbar === */
+.toolbar__ {
+  width: 100%;
+  padding: 10px 0;
+  background-color: #fff;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: center;
+}
+
+.navbar {
+  display: flex;
+  gap: 20px;
+}
+
+/* === Botões da navbar === */
+.navbar button {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-family: 'Zain', sans-serif;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.navbar-news {
+  background-color: #B5C18E;
+  color: white;
+}
+.navbar-news:hover {
+  background-color: #9cab7a;
+}
+
+.navbar-amigurumis {
+  background-color: #DEAC80;
+  color: white;
+}
+.navbar-amigurumis:hover {
+  background-color: #c59269;
+}
+
+.navbar-keychains {
+  background-color: #B99470;
+  color: white;
+}
+.navbar-keychains:hover {
+  background-color: #a07d59;
+}
+
+.navbar-accessories {
+  background-color: #F7DCB9;
+  color: #333;
+}
+.navbar-accessories:hover {
+  background-color: #e4c8a5;
+}
+
+.navbar-patterns {
+  background-color: #DEAC80;
+  
+  
+  color: white;
+}
+
+.navbar-patterns:hover {
+  background-color: #c59269;
+
+}
+
+.navbar-all {
+  background-color: #757ce8;
+  color: white;
+}
+.navbar-all:hover {
+  background-color: #5d64c6;
+}
+
+.navbar button:active {
+  transform: scale(0.96);
+}
+
+/* === Carrinho === */
+.list-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.img-cart {
+  padding: 10px;
+  height: 20px;
+  width: 20px;
+}
+
+/* === Ícone de menu hamburguer === */
+.menu-button {
+  display: none;
+}
+
+/* ==================== RESPONSIVO ==================== */
+
+/* Mobile */
+@media (max-width: 768px) {
+  /* Esconde navbar */
+  .navbar {
+    display: none !important;
+  }
+
+  /* Mostra botão menu */
+  .menu-button {
+    display: block !important;
+  }
+
+  .toolbar-filter {
+    width: 160px;
+    font-size: 14px;
+  }
+
+  .h1-logo {
+    display: none;
+  }
+
+  .toolbar-shopping {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 769px) {
+  .navbar {
+    display: flex !important;
+  }
+
+  .menu-button {
+    display: none !important;
+  }
+}
