@@ -10,46 +10,55 @@ const categoriasMapeadas = {
   amigurumis: "Amigurumis",
   chaveiros: "Chaveiros",
   acessorios: "Acessórios",
-  receitas: 'Receitas',
+  receitas: "Receitas",
   todos: "Todos os Produtos",
 };
 
 export default function ProductsPage({ addToCart }) {
+
   const { categoria } = useParams();
+
   const [produtos, setProdutos] = useState([]);
   const [carregando, setCarregando] = useState(true);
   const [filtro, setFiltro] = useState("");
 
-  const categoriaSelecionada = categoria ? categoria.toLowerCase() : "todos";
+  const categoriaSelecionada = categoria
+    ? categoria.toLowerCase()
+    : "todos";
 
   useEffect(() => {
-  const carregarProdutos = async () => {
-    try {
-      const lista = await listarProdutos();
-      console.log("Todos os produtos:", lista);
-      console.log("Categoria na URL:", categoria);
-      console.log("Categoria selecionada:", categoriaSelecionada);
 
-      const filtrados =
-        categoriaSelecionada === "todos"
-          ? lista
-          : lista.filter(
-              (item) =>
-                (item.categoria || "").toLowerCase() === categoriaSelecionada
-            );
+    const carregarProdutos = async () => {
 
-      console.log("Produtos filtrados:", filtrados);
-      setProdutos(filtrados);
-    } catch (error) {
-      console.error("Erro ao carregar produtos:", error);
-    } finally {
-      setCarregando(false);
-    }
-  };
+      try {
 
-  carregarProdutos();
-}, [categoriaSelecionada]);
+        const lista = await listarProdutos();
 
+        const filtrados =
+          categoriaSelecionada === "todos"
+            ? lista
+            : lista.filter(
+                (item) =>
+                  (item.categoria || "").toLowerCase() === categoriaSelecionada
+              );
+
+        setProdutos(filtrados);
+
+      } catch (error) {
+
+        console.error("Erro ao carregar produtos:", error);
+
+      } finally {
+
+        setCarregando(false);
+
+      }
+
+    };
+
+    carregarProdutos();
+
+  }, [categoriaSelecionada]);
 
   const produtosFiltrados = produtos.filter(
     (produto) =>
@@ -59,19 +68,31 @@ export default function ProductsPage({ addToCart }) {
 
   return (
     <div className="app">
+
       <h1 className="new-title">
         {categoriasMapeadas[categoriaSelecionada] || "Produtos"}
       </h1>
 
       {carregando ? (
+
         <p>Carregando produtos...</p>
+
       ) : produtosFiltrados.length > 0 ? (
+
         produtosFiltrados.map((item) => (
-          <ProductCard key={item.id} produto={item} addToCart={addToCart} />
+          <ProductCard
+            key={item.id}
+            produto={item}
+            addToCart={addToCart}
+          />
         ))
+
       ) : (
+
         <p>Nenhum produto encontrado.</p>
+
       )}
+
     </div>
   );
 }

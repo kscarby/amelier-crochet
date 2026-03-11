@@ -4,13 +4,19 @@ import { useNavigate } from "react-router-dom";
 
 export default function ProductCard({ produto, addToCart }) {
   const navigate = useNavigate();
+
+  const optimizedImage = produto.image?.replace(
+  "/upload/",
+  "/upload/f_auto,q_auto/"
+);
+
   return (
     <div className="card-newproduct">
     <div className="image-wrapper">
         <img
           onClick={() => navigate(`/details/${produto.id}`)}
           className="img-newproduct"
-          src={produto.image}
+          src={optimizedImage}
           alt={produto.nome}
         />
     </div>

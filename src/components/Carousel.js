@@ -46,7 +46,7 @@ const Carousel = ({newproducts, patterns, prompt, buypage}) => {
 
   return (
     <div className='Banner'>
-      <img src= {banner}></img>
+      {/*<img src= {banner}></img>*/}
       <ThemeProvider theme = {theme}>
         <MobileStepper
         variant="dots"

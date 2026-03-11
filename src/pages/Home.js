@@ -5,7 +5,7 @@ import ProductsPage from '../pages/ProductsPage'
 const Home = ({ addToCart }) => {
   return (
     <div>
-        <Carousel />
+        {/*<Carousel />*/}
         <ProductsPage addToCart={addToCart} />
     </div>
   )

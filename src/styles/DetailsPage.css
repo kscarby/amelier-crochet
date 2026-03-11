@@ -1,44 +1,45 @@
 .card-detailspage {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* 2 colunas */
-    grid-template-rows: 450px 450px; /* 2 linhas com altura fixa */
-    gap: 20px; /* espaço entre os quadrados */
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    width: 50%;
     max-width: 90%;
     margin: 15px auto;
     background-color: #fff;
 }
 .card-price-details {
     width: 100%;
+    padding: 30px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
     gap: 5px;
     text-align: center;
+    border-bottom: 1px solid #333;
+
 }
 
 .card-price-details h1 {
-    font-size: 3rem;
+    font-size: 50px;
     margin-bottom: 20px;
     color: #444;
 }
 
 .card-price-details h2 {
-    font-size: 2rem;
+    font-size: 30px;
     color: #555;
 }
 
 .card-price-details p {
-    font-size: 1.2rem;
+    font-size: 20px;
     color: #777;
+
 }
 
 .card-buy-details {
-    
     display: flex;
     flex-direction: column;
-    width: 65%;
+    width: 40%;
 }
 
 .button-buy-details {
@@ -54,7 +55,7 @@
 }
 
 .card-details-info {
-    margin-top: 20px;
+    margin: 30px 0;
     display: flex;
     justify-content: center;
     font-size: 1.2rem;

@@ -32,7 +32,7 @@ export default function Header({ setCart }) {
       ) : (
         <>
           <span>Bem-vindo, {user.email}</span>{" "}
-          <Link to="/perfil" className="button-profile">Meu Perfil</Link>
+          <Link to="/perfil" className="button-profile">Perfil</Link>
           <button onClick={handleLogout} className="button-logout">Sair</button>
         </>
       )}

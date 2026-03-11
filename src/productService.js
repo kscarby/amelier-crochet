@@ -8,31 +8,57 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 
-// 🔥 Coleção no Firestore chamada "produtos"
 const colecao = collection(db, "produtos");
 
-// ✅ Listar todos os produtos
+// 📦 Listar produtos
 export async function listarProdutos() {
-  const snapshot = await getDocs(colecao);
-  return snapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  }));
+  try {
+    const snapshot = await getDocs(colecao);
+
+    return snapshot.docs.map((documento) => ({
+      id: documento.id,
+      ...documento.data(),
+    }));
+  } catch (error) {
+    console.error("Erro ao listar produtos:", error);
+    return [];
+  }
 }
 
-// ✅ Criar um novo produto
+// ➕ Criar produto
 export async function criarProduto(produto) {
-  await addDoc(colecao, produto);
+  try {
+    const produtoFormatado = {
+      ...produto,
+      preco: Number(produto.preco),
+    };
+
+    await addDoc(colecao, produtoFormatado);
+  } catch (error) {
+    console.error("Erro ao criar produto:", error);
+  }
 }
 
-// ✅ Atualizar um produto existente
+// ✏️ Atualizar produto
 export async function atualizarProduto(id, dadosAtualizados) {
-  const produtoRef = doc(db, "produtos", id);
-  await updateDoc(produtoRef, dadosAtualizados);
+  try {
+    const produtoRef = doc(db, "produtos", id);
+
+    await updateDoc(produtoRef, {
+      ...dadosAtualizados,
+      preco: Number(dadosAtualizados.preco),
+    });
+  } catch (error) {
+    console.error("Erro ao atualizar produto:", error);
+  }
 }
 
-// ✅ Deletar um produto
+// ❌ Deletar produto
 export async function deletarProduto(id) {
-  const produtoRef = doc(db, "produtos", id);
-  await deleteDoc(produtoRef);
+  try {
+    const produtoRef = doc(db, "produtos", id);
+    await deleteDoc(produtoRef);
+  } catch (error) {
+    console.error("Erro ao deletar produto:", error);
+  }
 }

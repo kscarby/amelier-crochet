@@ -16,7 +16,8 @@ export default function AdminPage() {
   const [produtoSelecionado, setProdutoSelecionado] = useState(null);
 
   const carregarProdutos = async () => {
-    const querySnapshot = await getDocs(collection(db, "produtos"));
+    const produtosRef = collection(db, "produtos");
+    const querySnapshot = await getDocs(produtosRef);
     const lista = querySnapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
