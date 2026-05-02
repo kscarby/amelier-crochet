@@ -61,57 +61,59 @@ const BuyPage = ({ cart: propCart }) => {
   };
 
   const handlePayment = async (e) => {
-    e.preventDefault();
-    if (!validate()) return;
+  e.preventDefault();
 
-    try {
-      // Salva a compra no Firestore
-      await addDoc(collection(db, 'compras'), {
-        ...formData,
-        criadoEm: new Date(),
-        uid: user?.uid || null,
-        produtos: cart,
-      });
+  if (!validate()) return;
 
-      // Atualiza os dados do usuário
-      await setDoc(doc(db, 'users', user.uid), {
-        ...formData,
-        atualizadoEm: new Date(),
-      });
+  try {
 
-      // Mapeia os itens para enviar ao Mercado Pago
-      const itemsPayload = await Promise.all(cart.map(async item => {
-        // Busca o ID do produto no Firestore
-        const produtoDoc = await getDoc(doc(db, 'produtos', item.id));
-        if (!produtoDoc.exists()) return null;
+    // 1️⃣ cria pedido no Firestore
+    const pedidoRef = await addDoc(collection(db, "compras"), {
+      ...formData,
+      produtos: cart,
+      criadoEm: new Date(),
+      uid: user?.uid || null,
+      status: "pendente"
+    });
 
-        return {
-          title: item.nome || item.title || 'Sem nome',
-          description: produtoDoc.id, // 🔹 envia o ID do Firestore
-          quantity: Number(item.quantity) || 1,
-          unit_price: Number(item.preco || item.price) || 0,
-        };
-      }));
+    const pedidoId = pedidoRef.id;
 
-      const filteredItems = itemsPayload.filter(Boolean);
+    // 2️⃣ monta itens para o Mercado Pago
+    const items = cart.map(item => ({
+      title: item.nome || item.title,
+      quantity: Number(item.quantity) || 1,
+      unit_price: Number(item.preco || item.price) || 0
+    }));
 
-      if (filteredItems.length === 0) {
-        alert('Carrinho inválido.');
-        return;
+    // cria preferência
+    const preference = {
+      items,
+      back_urls: {
+        success: `https://amelier-crochet.web.app/success?pedido=${pedidoId}`,
+        failure: "https://amelier-crochet.web.app/erro"
+      },
+      auto_return: "approved",
+      external_reference: pedidoId
+    };
+
+    // envia para backend (ou API)
+    const response = await axios.post(
+      "https://api.mercadopago.com/checkout/preferences",
+      preference,
+      {
+        headers: {
+          Authorization: `Bearer APP_USR-3114926596313854-090418-63b2fea746a382cf64e41221687800d3-2568259463`,
+          "Content-Type": "application/json"
+        }
       }
+    );
 
-      // Chama a Cloud Function para criar a preferência
-      const response = await axios.post(
-        'https://us-central1-amelier-crochet.cloudfunctions.net/createPreference',
-        { items: filteredItems, email: formData.email }
-      );
-
-      const { init_point } = response.data;
-      window.location.href = init_point;
+    // redireciona para pagamento
+    window.location.href = response.data.init_point;
 
     } catch (error) {
-      console.error('Erro:', error);
-      alert('Erro ao finalizar pagamento.');
+      console.error("Erro ao criar pagamento:", error);
+      alert("Erro ao iniciar pagamento.");
     }
   };
 

@@ -17,6 +17,7 @@ import BuyPage from './pages/BuyPage';
 import Recovery from './pages/Recovery'
 import ProfilePage from './pages/ProfilePage';
 import DetailsPage from './pages/DetailsPage';
+import SuccessPage from "./pages/SuccessPage";
 
 function App() {
   // Inicializa o carrinho a partir do localStorage, se existir
@@ -54,6 +55,7 @@ function App() {
         <Toolbar cart={cart} setCart={setCart} onSearch={setSearch} />
         
         <Routes>
+          <Route path="/success" element={<SuccessPage />} />
           <Route path="/perfil" element={<ProfilePage />} />
           <Route path="/" element={<Home addToCart={handleAddToCart} />} />
           <Route path="/login" element={<Login />} />
