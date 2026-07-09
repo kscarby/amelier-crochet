@@ -67,9 +67,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "module",
   "bugs": {
     "url": "https://github.com/kscarby/amelier-crochet/issues"
-  },
-  "homepage": "https://github.com/kscarby/amelier-crochet#readme"
+  }
 }

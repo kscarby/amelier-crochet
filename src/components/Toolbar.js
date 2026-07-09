@@ -8,7 +8,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 import { green } from "@mui/material/colors";
-import ProfileDrawer from "./ProfileDrawer";
+import ProfileDrawer from "./ProfileDrawer.js";
 
 import "../styles/Toolbar.css";
 

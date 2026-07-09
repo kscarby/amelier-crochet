@@ -3,21 +3,21 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 // Components
-import Toolbar from './components/Toolbar';
-import Home from './pages/Home';
-import Header from './pages/Header';
-import Footer from './components/Footer';
+import Toolbar from './components/Toolbar.js';
+import Home from './pages/Home.js';
+import Header from './pages/Header.js';
+import Footer from './components/Footer.js';
 import AdminRoute from './routes/AdminRoute';
-import ProductsPage from './pages/ProductsPage';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import AdminPage from './pages/AdminPage';
-import SearchPage from './pages/SearchPage';
-import BuyPage from './pages/BuyPage';
-import Recovery from './pages/Recovery'
-import ProfilePage from './pages/ProfilePage';
-import DetailsPage from './pages/DetailsPage';
-import SuccessPage from "./pages/SuccessPage";
+import ProductsPage from './pages/ProductsPage.js';
+import Login from './pages/Login.js';
+import Register from './pages/Register.js';
+import AdminPage from './pages/AdminPage.js';
+import SearchPage from './pages/SearchPage.js';
+import BuyPage from './pages/BuyPage.js';
+import Recovery from './pages/Recovery.js'
+import ProfilePage from './pages/ProfilePage.js';
+import DetailsPage from './pages/DetailsPage.js';
+import SuccessPage from "./pages/SuccessPage.js";
 
 function App() {
   // Inicializa o carrinho a partir do localStorage, se existir

@@ -1,8 +1,8 @@
 // ProfilePage.jsx
 import React, { useState, useEffect } from 'react';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { db } from '../firebase';
-import { useAuth } from '../AuthContext';
+import { db } from '../firebase.js';
+import { useAuth } from '../AuthContext.js';
 import InputMask from 'react-input-mask';
 import '../styles/BuyPage.css';
 

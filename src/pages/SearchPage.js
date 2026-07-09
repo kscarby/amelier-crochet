@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { listarProdutos } from "../productService";
-import ProductCard from "../components/ProductCard";
+import { listarProdutos } from "../productService.js";
+import ProductCard from "../components/ProductCard.js";
 
 export default function SearchPage({ addToCart }) {
   const location = useLocation();

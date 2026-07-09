@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { db } from "../firebase";
+import { db } from "../firebase.js";
 import { doc, addDoc, updateDoc, collection } from "firebase/firestore";
 
 const uploadToCloudinary = async (file) => {

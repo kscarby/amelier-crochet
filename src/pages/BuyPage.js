@@ -3,8 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import InputMask from 'react-input-mask';
 import { collection, addDoc, doc, setDoc, getDoc } from 'firebase/firestore';
-import { db } from '../firebase';
-import { useAuth } from '../AuthContext';
+import { db } from '../firebase.js';
+import { useAuth } from '../AuthContext.js';
 import axios from 'axios';
 import '../styles/BuyPage.css';
 

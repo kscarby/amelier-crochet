@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { listarProdutos } from "../productService";
-import ProductCard from "../components/ProductCard";
+import { listarProdutos } from "../productService.js";
+import ProductCard from "../components/ProductCard.js";
 
 import "../styles/ProductPage.css";
 

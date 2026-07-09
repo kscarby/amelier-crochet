@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { auth } from '../firebase';  // ajuste o caminho
+import { auth } from '../firebase.js';
 import { sendPasswordResetEmail } from 'firebase/auth';
 
 const Recovery = () => {

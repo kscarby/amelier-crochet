@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { db } from "../firebase";
+import { db } from "../firebase.js";
 import {
   collection,
   getDocs,
   deleteDoc,
   doc,
 } from "firebase/firestore";
-import ProductManager from "./ProductManager";
-import ProductsAdmin from "./ProductsAdmin";
+import ProductManager from "./ProductManager.js";
+import ProductsAdmin from "./ProductsAdmin.js";
 
 import '../styles/AdminPage.css'
 
