@@ -8,10 +8,12 @@ import {
 } from "firebase/firestore";
 import ProductManager from "./ProductManager.js";
 import ProductsAdmin from "./ProductsAdmin.js";
+import OrdersPage from './OrdersPage.js'
 
 import '../styles/AdminPage.css'
 
 export default function AdminPage() {
+  const [aba, setAba] = useState("");
   const [produtos, setProdutos] = useState([]);
   const [produtoSelecionado, setProdutoSelecionado] = useState(null);
 
@@ -29,6 +31,7 @@ export default function AdminPage() {
     carregarProdutos();
   }, []);
 
+
   const handleDelete = async (produto) => {
     const confirm = window.confirm(
       `Deseja excluir o produto ${produto.nome}?`
@@ -45,18 +48,43 @@ export default function AdminPage() {
   };
 
   return (
-    <div className="admin-page">
-      <ProductManager
-        produtoSelecionado={produtoSelecionado}
-        onSave={handleSave}
-        onCancel={() => setProdutoSelecionado(null)}
-      />
+    <div>
+      <div className="admin-buttons">
+        <button onClick={() => setAba("novo")}>
+          Novo Produto
+        </button>
 
-      <ProductsAdmin
-        produtos={produtos}
-        onEdit={(produto) => setProdutoSelecionado(produto)}
-        onDelete={handleDelete}
-      />
+        <button onClick={() => setAba("produtos")}>
+          Meus Produtos
+        </button>
+
+        <button onClick={() => setAba("pedidos")}>
+          Pedidos
+        </button>
+      </div>
+      {aba === "novo" && (
+        <ProductManager
+          produtoSelecionado={produtoSelecionado}
+          onSave={handleSave}
+        />
+      )}
+
+      {aba === "pedidos" && (
+        <OrdersPage
+        />
+      )}
+
+      {aba === "produtos" && (
+        <ProductsAdmin
+          produtos={produtos}
+          onEdit={(produto) => {
+            setProdutoSelecionado(produto);
+            setAba("novo"); // abre a tela de edição
+          }}
+          onDelete={handleDelete}
+        />
+      )}
+
     </div>
   );
 }

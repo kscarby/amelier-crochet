@@ -12,15 +12,17 @@ import Img2 from '../assets/carousel/img.jpg';
 
 
 const bannerImg = [
-  {id: 1,
-   image: {Img1},
+  {
+    id: 1,
+    image: { Img1 },
   },
-  {id: 2,
-    image: {Img2},
-   },
+  {
+    id: 2,
+    image: { Img2 },
+  },
 ]
 
-const Carousel = ({newproducts, patterns, prompt, buypage}) => {
+const Carousel = ({ newproducts, patterns, prompt, buypage }) => {
 
   const theme = createTheme({
     palette: {
@@ -47,32 +49,32 @@ const Carousel = ({newproducts, patterns, prompt, buypage}) => {
   return (
     <div className='Banner'>
       {/*<img src= {banner}></img>*/}
-      <ThemeProvider theme = {theme}>
+      <ThemeProvider theme={theme}>
         <MobileStepper
-        variant="dots"
-        steps={2}
-        position="static"
-        activeStep={activeStep}
-        sx={{ margin: 'auto', maxWidth: 200, flexGrow: 1, backgroundColor: 'transparent' }}
-        nextButton={
-          <Button size="small" onClick={handleNext} disabled={activeStep === 5}>
-            {theme.direction === 'rtl' ? (
-              <KeyboardArrowLeft />
-            ) : (
-              <KeyboardArrowRight />
-            )}
-          </Button>
-        }
-        backButton={
-          <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-            {theme.direction === 'rtl' ? (
-              <KeyboardArrowRight />
-            ) : (
-              <KeyboardArrowLeft />
-            )}
-          </Button>
-        }
-      />
+          variant="dots"
+          steps={2}
+          position="static"
+          activeStep={activeStep}
+          sx={{ margin: 'auto', maxWidth: 200, flexGrow: 1, backgroundColor: 'transparent' }}
+          nextButton={
+            <Button size="small" onClick={handleNext} disabled={activeStep === 5}>
+              {theme.direction === 'rtl' ? (
+                <KeyboardArrowLeft />
+              ) : (
+                <KeyboardArrowRight />
+              )}
+            </Button>
+          }
+          backButton={
+            <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+              {theme.direction === 'rtl' ? (
+                <KeyboardArrowRight />
+              ) : (
+                <KeyboardArrowLeft />
+              )}
+            </Button>
+          }
+        />
       </ThemeProvider>
     </div>
   );

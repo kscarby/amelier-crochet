@@ -18,6 +18,7 @@ import Recovery from './pages/Recovery.js'
 import ProfilePage from './pages/ProfilePage.js';
 import DetailsPage from './pages/DetailsPage.js';
 import SuccessPage from "./pages/SuccessPage.js";
+import OrdersPage from './pages/OrdersPage.js';
 
 function App() {
   // Inicializa o carrinho a partir do localStorage, se existir
@@ -76,7 +77,14 @@ function App() {
               </AdminRoute>
             }
           />
-
+          <Route
+            path="/admin/orders"
+            element={
+            <AdminRoute>
+              <OrdersPage />
+            </AdminRoute>
+            }
+          />
           <Route
             path="/buscar"
             element={<SearchPage search={search} addToCart={handleAddToCart} />}

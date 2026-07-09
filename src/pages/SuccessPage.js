@@ -56,7 +56,7 @@ const SuccessPage = () => {
       <h1>Pagamento realizado com sucesso 🎉</h1>
 
       <p>
-        Obrigado pela sua compra!  
+        Obrigado pela sua compra!
         Seu download está disponível abaixo.
       </p>
 

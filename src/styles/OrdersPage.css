@@ -1,0 +1,28 @@
+.orders-page {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    margin-bottom: 30px;
+}
+
+.orders-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    margin-bottom: 30px;
+    
+}
+
+.orders-title h2 {
+    margin-bottom: 20px;
+    color: #444;
+}
+
+li {
+    list-style-type: none;
+    color: #757ce8 ;
+}

@@ -29,13 +29,13 @@ const Recovery = () => {
       <form className='form-login' onSubmit={handleSubmit}>
         <h2 className='form-h2'>Recuperação de senha</h2>
 
-        <input 
+        <input
           className='form-input'
-          type="email" 
+          type="email"
           placeholder="Email"
           value={email}
           onChange={e => setEmail(e.target.value)}
-          required 
+          required
         />
 
         {message && <p style={{ color: 'green', marginTop: '10px' }}>{message}</p>}

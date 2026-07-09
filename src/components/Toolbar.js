@@ -106,7 +106,7 @@ const Toolbar = ({ cart, setCart, onSearch }) => {
       {/* Navbar abaixo da barra */}
       <div className="toolbar__">
         <nav className="navbar">
-          
+
           <button className="navbar-news" onClick={() => navigate("/products/lancamentos")}>
             Lançamentos
           </button>
@@ -130,80 +130,80 @@ const Toolbar = ({ cart, setCart, onSearch }) => {
 
       {/* Drawer do carrinho */}
       <Drawer anchor="right" open={cartOpen} onClose={() => setCartOpen(false)}>
-  <Box sx={{ width: 320, p: 2 }}>
-    <h2 style={{ textAlign: "center" }}>Meu Carrinho</h2>
-    <Divider sx={{ mb: 2 }} />
-    {cart.length === 0 ? (
-      <p style={{ textAlign: "center" }}>Seu carrinho está vazio.</p>
-    ) : (
-      <List>
-        {cart.map((item) => (
-          <ListItem
-            key={item.id}
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: 1,
-              mb: 2,
-              border: "1px solid #eee",
-              borderRadius: 2,
-              p: 1,
-            }}
-          >
-            <img
-              src={item.image}
-              alt={item.nome || item.title}
-              style={{ width: 100, height: 100, objectFit: "cover", borderRadius: 8 }}
-            />
-            <h4 style={{ textAlign: "center" }}>{item.nome || item.title}</h4>
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-              <Button
-                variant="outlined"
-                size="small"
-                onClick={() => updateQuantity(item.id, -1)}
-              >
-                -
-              </Button>
-              <span style={{ minWidth: 20, textAlign: "center" }}>{item.quantity}</span>
-              <Button
-                variant="outlined"
-                size="small"
-                onClick={() => updateQuantity(item.id, 1)}
-              >
-                +
-              </Button>
-            </Box>
-            <p>
-              <strong>R$ {((item.preco || item.price) * item.quantity).toFixed(2)}</strong>
-            </p>
-            <Tooltip title="Remover">
-              <IconButton onClick={() => DeleteItem(item.id)}>
-                <DeleteIcon />
-              </IconButton>
-            </Tooltip>
-          </ListItem>
-        ))}
-      </List>
-    )}
-    <Divider sx={{ mt: 2, mb: 1 }} />
-    <ColorButton fullWidth onClick={handlePayment}>
-      Finalizar Compra
-    </ColorButton>
-  </Box>
-</Drawer>
+        <Box sx={{ width: 320, p: 2 }}>
+          <h2 style={{ textAlign: "center" }}>Meu Carrinho</h2>
+          <Divider sx={{ mb: 2 }} />
+          {cart.length === 0 ? (
+            <p style={{ textAlign: "center" }}>Seu carrinho está vazio.</p>
+          ) : (
+            <List>
+              {cart.map((item) => (
+                <ListItem
+                  key={item.id}
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    gap: 1,
+                    mb: 2,
+                    border: "1px solid #eee",
+                    borderRadius: 2,
+                    p: 1,
+                  }}
+                >
+                  <img
+                    src={item.image}
+                    alt={item.nome || item.title}
+                    style={{ width: 100, height: 100, objectFit: "cover", borderRadius: 8 }}
+                  />
+                  <h4 style={{ textAlign: "center" }}>{item.nome || item.title}</h4>
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      onClick={() => updateQuantity(item.id, -1)}
+                    >
+                      -
+                    </Button>
+                    <span style={{ minWidth: 20, textAlign: "center" }}>{item.quantity}</span>
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      onClick={() => updateQuantity(item.id, 1)}
+                    >
+                      +
+                    </Button>
+                  </Box>
+                  <p>
+                    <strong>R$ {((item.preco || item.price) * item.quantity).toFixed(2)}</strong>
+                  </p>
+                  <Tooltip title="Remover">
+                    <IconButton onClick={() => DeleteItem(item.id)}>
+                      <DeleteIcon />
+                    </IconButton>
+                  </Tooltip>
+                </ListItem>
+              ))}
+            </List>
+          )}
+          <Divider sx={{ mt: 2, mb: 1 }} />
+          <ColorButton fullWidth onClick={handlePayment}>
+            Finalizar Compra
+          </ColorButton>
+        </Box>
+      </Drawer>
 
 
       {/* Drawer do menu mobile */}
       <Drawer anchor="left" open={menuOpen} onClose={() => setMenuOpen(false)}>
         <Box sx={{ width: 250, p: 2 }}>
           <List>
-            <ListItem button onClick={() => {navigate("/products/lancamentos"); setMenuOpen(false);}}>Lançamentos</ListItem>
-            <ListItem button onClick={() => {navigate("/products/amigurumis"); setMenuOpen(false);}}>Amigurumis</ListItem>
-            <ListItem button onClick={() => {navigate("/products/chaveiros"); setMenuOpen(false);}}>Chaveiros</ListItem>
-            <ListItem button onClick={() => {navigate("/products/acessorios"); setMenuOpen(false);}}>Acessórios</ListItem>
-            <ListItem button onClick={() => {navigate("/products/patterns"); setMenuOpen(false);}}>Receitas</ListItem>
-            <ListItem button onClick={() => {navigate("/products/todos"); setMenuOpen(false);}}>Todos</ListItem>
+            <ListItem button onClick={() => { navigate("/products/lancamentos"); setMenuOpen(false); }}>Lançamentos</ListItem>
+            <ListItem button onClick={() => { navigate("/products/amigurumis"); setMenuOpen(false); }}>Amigurumis</ListItem>
+            <ListItem button onClick={() => { navigate("/products/chaveiros"); setMenuOpen(false); }}>Chaveiros</ListItem>
+            <ListItem button onClick={() => { navigate("/products/acessorios"); setMenuOpen(false); }}>Acessórios</ListItem>
+            <ListItem button onClick={() => { navigate("/products/patterns"); setMenuOpen(false); }}>Receitas</ListItem>
+            <ListItem button onClick={() => { navigate("/products/todos"); setMenuOpen(false); }}>Todos</ListItem>
           </List>
         </Box>
         <ProfileDrawer />

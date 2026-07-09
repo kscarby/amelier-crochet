@@ -6,20 +6,20 @@ export default function ProductCard({ produto, addToCart }) {
   const navigate = useNavigate();
 
   const optimizedImage = produto.image?.replace(
-  "/upload/",
-  "/upload/f_auto,q_auto/"
-);
+    "/upload/",
+    "/upload/f_auto,q_auto/"
+  );
 
   return (
     <div className="card-newproduct">
-    <div className="image-wrapper">
+      <div className="image-wrapper">
         <img
           onClick={() => navigate(`/details/${produto.id}`)}
           className="img-newproduct"
           src={optimizedImage}
           alt={produto.nome}
         />
-    </div>
+      </div>
 
       <div className="card-price">
         <h1>{produto.nome}</h1>

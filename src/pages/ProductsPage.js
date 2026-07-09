@@ -38,9 +38,9 @@ export default function ProductsPage({ addToCart }) {
           categoriaSelecionada === "todos"
             ? lista
             : lista.filter(
-                (item) =>
-                  (item.categoria || "").toLowerCase() === categoriaSelecionada
-              );
+              (item) =>
+                (item.categoria || "").toLowerCase() === categoriaSelecionada
+            );
 
         setProdutos(filtrados);
 

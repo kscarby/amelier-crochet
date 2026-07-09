@@ -5,7 +5,6 @@ import InputMask from 'react-input-mask';
 import { collection, addDoc, doc, setDoc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase.js';
 import { useAuth } from '../AuthContext.js';
-import axios from 'axios';
 import '../styles/BuyPage.css';
 
 const BuyPage = ({ cart: propCart }) => {
@@ -61,59 +60,78 @@ const BuyPage = ({ cart: propCart }) => {
   };
 
   const handlePayment = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (!validate()) return;
+    if (!validate()) return;
 
-  try {
+    try {
+      // Calcula o total antes de salvar
+      const total = cart.reduce(
+        (acc, item) =>
+          acc + Number(item.preco || item.price) * Number(item.quantity || 1),
+        0
+      );
 
-    // 1️⃣ cria pedido no Firestore
-    const pedidoRef = await addDoc(collection(db, "compras"), {
-      ...formData,
-      produtos: cart,
-      criadoEm: new Date(),
-      uid: user?.uid || null,
-      status: "pendente"
-    });
+      // Salva o pedido no Firestore
+      await addDoc(collection(db, "compras"), {
+        ...formData,
+        produtos: cart,
+        total,
+        criadoEm: new Date(),
+        uid: user?.uid || null,
+        status: "Aguardando pagamento",
+      });
 
-    const pedidoId = pedidoRef.id;
+      // Lista de produtos
+      const produtos = cart
+        .map(
+          (item) => `
+• ${item.nome || item.title}
+Quantidade: ${item.quantity || 1}
+Valor: R$ ${Number(item.preco || item.price).toFixed(2)}
+`
+        )
+        .join("\n");
 
-    // 2️⃣ monta itens para o Mercado Pago
-    const items = cart.map(item => ({
-      title: item.nome || item.title,
-      quantity: Number(item.quantity) || 1,
-      unit_price: Number(item.preco || item.price) || 0
-    }));
+      // Mensagem do WhatsApp
+      const mensagem = `
+Olá! Gostaria de fazer um pedido.
 
-    // cria preferência
-    const preference = {
-      items,
-      back_urls: {
-        success: `https://amelier-crochet.web.app/success?pedido=${pedidoId}`,
-        failure: "https://amelier-crochet.web.app/erro"
-      },
-      auto_return: "approved",
-      external_reference: pedidoId
-    };
+📌 Dados do cliente
 
-    // envia para backend (ou API)
-    const response = await axios.post(
-      "https://api.mercadopago.com/checkout/preferences",
-      preference,
-      {
-        headers: {
-          Authorization: `Bearer APP_USR-3114926596313854-090418-63b2fea746a382cf64e41221687800d3-2568259463`,
-          "Content-Type": "application/json"
-        }
-      }
-    );
+Nome: ${formData.nome}
+Telefone: ${formData.telefone}
+Email: ${formData.email}
+CPF: ${formData.cpf}
 
-    // redireciona para pagamento
-    window.location.href = response.data.init_point;
+📦 Produtos
 
+${produtos}
+
+💰 Total: R$ ${total.toFixed(2)}
+
+📍 Endereço
+
+${formData.endereco}, Nº ${formData.numero}
+Bairro: ${formData.bairro}
+Cidade: ${formData.cidade} - ${formData.estado}
+CEP: ${formData.cep}
+`;
+
+      // Seu número
+      const numero = "5598981965664";
+
+      window.open(
+        `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`,
+        "_blank"
+      );
+
+      localStorage.removeItem("cart");
+
+      navigate("/");
     } catch (error) {
-      console.error("Erro ao criar pagamento:", error);
-      alert("Erro ao iniciar pagamento.");
+      console.error(error);
+      alert("Erro ao finalizar pedido.");
     }
   };
 
@@ -180,10 +198,10 @@ const BuyPage = ({ cart: propCart }) => {
               <p className="floating-label">Estado</p>
               <select className="form-input" name="estado" value={formData.estado} onChange={handleChange} required>
                 <option value="">Selecione o estado</option>
-                {["AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG",
-                  "PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"].map(uf => (
-                  <option key={uf} value={uf}>{uf}</option>
-                ))}
+                {["AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG",
+                  "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"].map(uf => (
+                    <option key={uf} value={uf}>{uf}</option>
+                  ))}
               </select>
             </div>
             {errors.estado && <span className="error">{errors.estado}</span>}

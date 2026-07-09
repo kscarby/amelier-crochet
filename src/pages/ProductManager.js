@@ -82,49 +82,56 @@ export default function ProductManager({ produtoSelecionado, onSave, onCancel })
 
     try {
 
+      if (form.categoria === "receitas" && !pdfFile && !form.pdf) {
+        alert("Adicione o PDF da receita.");
+        setUploading(false);
+        return;
+      }
+
       let imageUrl = form.image;
       let pdfUrl = form.pdf;
+
 
       if (imageFile) {
         imageUrl = await uploadToCloudinary(imageFile);
       }
 
+
       if (pdfFile) {
         pdfUrl = await uploadToCloudinary(pdfFile);
       }
+
 
       const produtoData = {
         nome: form.nome,
         preco: Number(form.preco),
         image: imageUrl,
-        pdf: pdfUrl,
         info: form.info,
         categoria: form.categoria,
+
+        // somente receitas terão PDF
+        pdf: form.categoria === "receitas" ? pdfUrl : null,
       };
 
+
       if (form.id) {
-        const docRef = doc(db, "produtos", form.id);
-        await updateDoc(docRef, produtoData);
+        await updateDoc(
+          doc(db, "produtos", form.id),
+          produtoData
+        );
       } else {
-        await addDoc(collection(db, "produtos"), produtoData);
+        await addDoc(
+          collection(db, "produtos"),
+          produtoData
+        );
       }
+
 
       onSave();
 
-      setForm({
-        nome: "",
-        preco: "",
-        image: "",
-        pdf: "",
-        info: "",
-        categoria: "lancamentos",
-      });
-
-      setImageFile(null);
-      setPdfFile(null);
-
     } catch (error) {
       console.error("Erro ao salvar:", error);
+
     } finally {
       setUploading(false);
     }
@@ -277,8 +284,8 @@ export default function ProductManager({ produtoSelecionado, onSave, onCancel })
             {uploading
               ? "Salvando..."
               : form.id
-              ? "Atualizar"
-              : "Adicionar"}
+                ? "Atualizar"
+                : "Adicionar"}
           </button>
 
           {form.id && (

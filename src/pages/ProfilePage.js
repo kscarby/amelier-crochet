@@ -124,10 +124,10 @@ const ProfilePage = () => {
               <p className="floating-label">Estado</p>
               <select className="form-input" name="estado" value={formData.estado} onChange={handleChange} required disabled={!editMode}>
                 <option value="">Selecione o estado</option>
-                {["AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG",
-                  "PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"].map(uf => (
-                  <option key={uf} value={uf}>{uf}</option>
-                ))}
+                {["AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG",
+                  "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"].map(uf => (
+                    <option key={uf} value={uf}>{uf}</option>
+                  ))}
               </select>
             </div>
             {errors.estado && <span className="error">{errors.estado}</span>}

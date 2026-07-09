@@ -26,21 +26,21 @@ export default function Login() {
     <div className='container-form-login'>
       <form className='form-login' onSubmit={handleSubmit}>
         <h2 className='form-h2'>Entrar</h2>
-        <input 
+        <input
           className='form-input'
-          type="email" 
-          placeholder="Email" 
-          value={email} 
-          onChange={e => setEmail(e.target.value)} 
-          required 
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+          required
         />
-        <input 
+        <input
           className='form-input'
-          type="password" 
+          type="password"
           placeholder="Senha"
-          value={password} 
-          onChange={e => setPassword(e.target.value)} 
-          required 
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          required
         />
         {error && <p style={{ color: 'red' }}>{error}</p>}
 

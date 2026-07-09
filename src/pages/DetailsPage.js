@@ -45,20 +45,20 @@ export default function DetailsPage({ addToCart }) {
           R$ {produto.preco.toFixed(2)} à vista ou 3x R$
           {(produto.preco / 3).toFixed(2)} sem juros
         </p>
-        
+
         <div className="card-buy-details">
-            <button className="button-buy-details" onClick={() => addToCart(produto)}>
+          <button className="button-buy-details" onClick={() => addToCart(produto)}>
             Adicionar ao carrinho
-            </button>
-            <button className="button-buy-details" onClick={() => addToCart(produto)}>
+          </button>
+          <button className="button-buy-details" onClick={() => addToCart(produto)}>
             Comprar
-            </button>
+          </button>
         </div>
       </div>
-        <div className="card-details-info">
-            <p>{produto.info}</p>
+      <div className="card-details-info">
+        <p>{produto.info}</p>
 
-        </div>
+      </div>
     </div>
   );
 }
